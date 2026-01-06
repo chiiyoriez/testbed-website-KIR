@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GlowSkin - Pilih Perawatanmu</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- CSS VARIABLES & RESET --- */
+        :root {
+            --primary-bg: #fdfbf7;
+            --text-dark: #333333;
+            --text-light: #666666;
+            --accent-toner: #9e8fb2;
+            --accent-toner-dark: #7a6b8e;
+            --accent-toner-light: #f4f0f9;
+            --accent-serum: #e6a4a4;
+            --accent-serum-dark: #cf7878;
+            --accent-serum-light: #fdf2f2;
+            --white: #ffffff;
+            --shadow: 0 10px 30px rgba(0,0,0,0.08);
+            --transition: all 0.3s ease;
+            --bright-gradient: linear-gradient(45deg, #FF6B6B, #FF8E53);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--primary-bg);
+            color: var(--text-dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .hidden { display: none !important; }
+        .fade-in { animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- HEADER & NAV --- */
+        header {
+            background-color: var(--white);
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        nav {
+            display: flex;
+            gap: 1.2rem;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--text-light);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.9rem;
+            position: relative;
+        }
+        .nav-link:hover { color: var(--text-dark); }
+        
+        /* Styling spesifik untuk link di navigasi */
+        .nav-link.toner-link:hover { color: var(--accent-toner); }
+        .nav-link.serum-link:hover { color: var(--accent-serum); }
+
+        /* --- HERO --- */
+        .hero {
+            text-align: center;
+            padding: 3rem 1rem 1rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .hero h1 { font-size: 2.5rem; margin-bottom: 1rem; }
+        .hero p { color: var(--text-light); }
+
+        /* --- HOME / SELECTION PAGE --- */
+        .selection-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            padding: 2rem 5%;
+            max-width: 1200px;
+            margin: 0 auto 4rem;
+            flex-grow: 1;
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            cursor: pointer;
+            border: 1px solid transparent;
+        }
+        .card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.12); }
+        .toner-card:hover { border-color: var(--accent-toner); }
+        .serum-card:hover { border-color: var(--accent-serum); }
+
+        .card-image { height: 250px; overflow: hidden; position: relative; }
+        .card-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+        .card:hover .card-image img { transform: scale(1.05); }
+        
+        .card-content { padding: 2rem; text-align: center; }
+        .card-icon { font-size: 2rem; margin-bottom: 1rem; display: block; }
+        .toner-card .card-icon { color: var(--accent-toner); }
+        .serum-card .card-icon { color: var(--accent-serum); }
+
+        .btn-card {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 10px 25px;
+            border-radius: 50px;
+            color: white;
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        .toner-card .btn-card { background-color: var(--accent-toner); }
+        .serum-card .btn-card { background-color: var(--accent-serum); }
+
+        /* --- DETAIL PAGE --- */
+        .product-page {
+            padding: 2rem 5%;
+            max-width: 1200px;
+            margin: 0 auto 4rem;
+            flex-grow: 1;
+        }
+
+        .detail-container {
+            display: flex;
+            flex-wrap: wrap;
+            background: var(--white);
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .detail-image {
+            flex: 1 1 400px;
+            height: 500px;
+            position: relative;
+        }
+        .detail-image img { width: 100%; height: 100%; object-fit: cover; }
+
+        .detail-content {
+            flex: 1 1 400px;
+            padding: 3rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 1.5rem;
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .back-btn:hover { color: var(--text-dark); transform: translateX(-5px); }
+
+        .detail-content h2 { font-size: 2.5rem; margin-bottom: 0.5rem; }
+        .detail-price { font-size: 1.5rem; font-weight: 700; margin-bottom: 2rem; display: block; }
+        .detail-desc { color: var(--text-light); margin-bottom: 2rem; line-height: 1.8; }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 2.5rem;
+        }
+        .feature-item { display: flex; align-items: center; gap: 10px; font-weight: 500; }
+        
+        #page-toner .detail-price { color: var(--accent-toner); }
+        #page-toner .feature-item i { color: var(--accent-toner); }
+        #page-toner .action-btn { background-color: var(--accent-toner); }
+        
+        #page-serum .detail-price { color: var(--accent-serum); }
+        #page-serum .feature-item i { color: var(--accent-serum); }
+        #page-serum .action-btn { background-color: var(--accent-serum); }
+
+        .action-btn {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 50px;
+            color: rgb(0, 0, 0);
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: center;
+            display: block;
+        }
+        .action-btn:hover { opacity: 0.9; transform: scale(1.02); }
+
+        /* --- FORUM & FORM SECTION (Shared Styles) --- */
+        .forum-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        .form-card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 100px;
+        }
+
+        .form-group { margin-bottom: 1.2rem; }
+        .form-label { display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--text-dark); }
+        
+        .form-input, .form-textarea, .form-select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.95rem;
+            transition: var(--transition);
+        }
+
+        /* Input disabled style */
+        .form-select:disabled {
+            background-color: #f9f9f9;
+            color: #888;
+            cursor: not-allowed;
+        }
+
+        .form-input:focus, .form-textarea:focus {
+            outline: none;
+            border-color: #FF6B6B;
+            box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.1);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background: var(--bright-gradient);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+        }
+        .submit-btn:hover { 
+            transform: translateY(-2px); 
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.6); 
+        }
+
+        .qa-feed-header {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #eee;
+        }
+
+        .qa-card {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            transition: var(--transition);
+            position: relative;
+        }
+        .qa-card:hover { box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
+
+        .delete-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            color: #ccc;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: var(--transition);
+            padding: 5px;
+        }
+        .delete-btn:hover { color: #ff4d4d; transform: scale(1.1); }
+
+        .qa-meta {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+        .qa-avatar {
+            width: 35px;
+            height: 35px;
+            background: #eee;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-light);
+        }
+        .qa-name { font-weight: 700; color: var(--text-dark); }
+
+        .qa-question {
+            font-weight: 500;
+            font-size: 1.1rem;
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+            padding-left: 45px;
+        }
+
+        .qa-answer {
+            background-color: var(--primary-bg);
+            border-left: 4px solid var(--accent-toner);
+            padding: 1rem;
+            border-radius: 0 10px 10px 0;
+            margin-top: 1rem;
+            margin-left: 45px;
+        }
+        .qa-answer-header {
+            font-size: 0.85rem;
+            color: var(--accent-toner-dark);
+            font-weight: 700;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .btn-reply {
+            background: none;
+            border: 1px solid #ddd;
+            padding: 5px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            margin-left: 45px;
+            transition: var(--transition);
+        }
+        .btn-reply:hover { background: #eee; color: var(--text-dark); }
+
+        .reply-form {
+            margin-top: 1rem;
+            margin-left: 45px;
+            display: none;
+        }
+        .reply-form.active { display: block; animation: fadeIn 0.3s; }
+
+        footer {
+            background-color: var(--white);
+            padding: 2rem;
+            text-align: center;
+            border-top: 1px solid #eee;
+            margin-top: auto;
+        }
+
+        @media (max-width: 900px) {
+            .forum-wrapper { grid-template-columns: 1fr; }
+            .form-card { position: static; }
+        }
+        @media (max-width: 768px) {
+            .selection-container { grid-template-columns: 1fr; }
+            .detail-image { height: 300px; }
+            .detail-content { padding: 2rem; }
+            .hero h1 { font-size: 2rem; }
+            nav { display: none; } /* Sembunyikan nav teks di mobile */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="logo" onclick="navigateTo('home')">
+            <i class="fas fa-leaf"></i> GlowSkin
+        </div>
+        
+        <!-- Menu Navigasi Terpisah -->
+        <nav>
+            <a class="nav-link toner-link" onclick="navigateTo('toner')">Toner</a>
+            <a class="nav-link serum-link" onclick="navigateTo('serum')">Serum</a>
+            <a class="nav-link toner-link" onclick="navigateTo('toner-forum')">Diskusi Toner</a>
+            <a class="nav-link serum-link" onclick="navigateTo('serum-forum')">Diskusi Serum</a>
+        </nav>
+    </header>
+
+    <!-- VIEW 1: HOME -->
+    <main id="view-home" class="fade-in">
+        <section class="hero">
+            <h1>Pilih Jenis Perawatan</h1>
+            <p>Apakah kulit Anda membutuhkan hidrasi ringan atau nutrisi intensif?</p>
+        </section>
+
+        <div class="selection-container">
+            <article class="card toner-card" onclick="navigateTo('toner')">
+                <div class="card-image">
+                    <img src="https://picsum.photos/seed/watertoner/600/400" alt="Toner">
+                </div>
+                <div class="card-content">
+                    <i class="fas fa-spray-can card-icon"></i>
+                    <h2>Toner</h2>
+                    <p>Penyegar kulit untuk mengembalikan pH balance.</p>
+                    <span class="btn-card">Lihat Detail</span>
+                </div>
+            </article>
+
+            <article class="card serum-card" onclick="navigateTo('serum')">
+                <div class="card-image">
+                    <img src="https://picsum.photos/seed/goldserum/600/400" alt="Serum">
+                </div>
+                <div class="card-content">
+                    <i class="fas fa-flask card-icon"></i>
+                    <h2>Serum</h2>
+                    <p>Konsentrat nutrisi tinggi untuk kulit sehat bercahaya.</p>
+                    <span class="btn-card">Lihat Detail</span>
+                </div>
+            </article>
+        </div>
+    </main>
+
+    <!-- VIEW 2: HALAMAN TONER -->
+    <section id="view-toner" class="product-page hidden fade-in">
+        <div class="detail-container">
+            <div class="detail-image">
+                <img src="https://picsum.photos/seed/watertoner/800/800" alt="Detail Toner">
+            </div>
+            <div class="detail-content">
+                <div class="back-btn" onclick="navigateTo('home')">
+                    <i class="fas fa-arrow-left"></i> Kembali ke Menu
+                </div>
+                <h2>BAWI TONER</h2>
+                <span class="detail-price">Rp 40.000</span>
+                <p class="detail-desc">
+                    Inspired by the natural 'Bawi Kuwu' treatments, this toner blends Taya stem, Dayak onion, Bajakah water, and Pandan leaves. Natural solution for acne-prone skin.
+                </p>
+                <div class="feature-grid">
+                    <div class="feature-item"><i class="fas fa-check-circle"></i> Acne Prone Skin</div>
+                    <div class="feature-item"><i class="fas fa-check-circle"></i> Sensitive Skin</div>
+                    <div class="feature-item"><i class="fas fa-check-circle"></i> Calming Redness</div>
+                    <div class="feature-item"><i class="fas fa-check-circle"></i> 20ml</div>
+                </div>
+                <!-- Tombol khusus menuju Forum Toner -->
+                <button class="action-btn" onclick="navigateTo('toner-forum')">Lihat Diskusi Toner</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- VIEW 3: HALAMAN SERUM -->
+    <section id="view-serum" class="product-page hidden fade-in">
+        <div class="detail-container">
+            <div class="detail-image">
+                <img src="https://picsum.photos/seed/goldserum/800/800" alt="Detail Serum">
+            </div>
+            <div class="detail-content">
+                <div class="back-btn" onclick="navigateTo('home')">
+                    <i class="fas fa-arrow-left"></i> Kembali ke Menu
+                </div>
+                <h2>TABELA Serum</h2>
+                <span class="detail-price">Rp 10.000</span>
+                <p class="detail-desc">
+                    Serum wajah dengan kandungan Vitamin C dan Niacinamide untuk mencerahkan kulit dan menyamarkan noda hitam. Teksturnya ringan dan cepat menyerap.
+                </p>
+                <div class="feature-grid">
+                    <div class="feature-item"><i class="fas fa-check-circle"></i> Brightening</div>
+                    <div class="feature-item"><i class="fas fa-check-circle"></i> Anti Aging</div>
+                    <div class="feature-item"><i class="fas fa-check-circle"></i> Vitamin C 20%</div>
+                    <div class="feature-item"><i class="fas fa-check-circle"></i> 10ml</div>
+                </div>
+                <!-- Tombol khusus menuju Forum Serum -->
+                <button class="action-btn" onclick="navigateTo('serum-forum')">Lihat Diskusi Serum</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- VIEW 4: FORUM TONER (TERPISAH) -->
+    <section id="view-toner-forum" class="product-page hidden fade-in">
+        <div style="padding-bottom: 2rem;">
+            <div class="back-btn" onclick="navigateTo('toner')">
+                <i class="fas fa-arrow-left"></i> Kembali ke Produk Toner
+            </div>
+            
+            <div class="qa-feed-header" style="border-bottom-color: var(--accent-toner);">
+                <h2 style="color: var(--accent-toner-dark);">Diskusi Bawi Toner</h2>
+                <p style="color: var(--text-light);">Khusus tanya jawab seputar Bawi Toner.</p>
+            </div>
+
+            <div class="forum-wrapper">
+                <div class="form-card">
+                    <h3 style="margin-bottom: 1.5rem;">Ajukan Pertanyaan (Toner)</h3>
+                    <form id="qaForm-toner" onsubmit="postQuestion(event, 'Bawi Toner')">
+                        <div class="form-group">
+                            <label class="form-label">Nama</label>
+                            <input type="text" id="askerName-toner" class="form-input" placeholder="Nama kamu" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Produk</label>
+                            <!-- Dropdown Terkunci ke Bawi Toner -->
+                            <select id="askProduct-toner" class="form-select" disabled>
+                                <option value="Bawi Toner" selected>Bawi Toner</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Pertanyaan</label>
+                            <textarea id="askContent-toner" class="form-textarea" rows="4" placeholder="Tanya seputar Toner..." required></textarea>
+                        </div>
+                        <button type="submit" class="submit-btn">
+                            Kirim ke Forum Toner <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Feed Toner Saja -->
+                <div class="qa-feed" id="qaFeed-toner"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- VIEW 5: FORUM SERUM (TERPISAH) -->
+    <section id="view-serum-forum" class="product-page hidden fade-in">
+        <div style="padding-bottom: 2rem;">
+            <div class="back-btn" onclick="navigateTo('serum')">
+                <i class="fas fa-arrow-left"></i> Kembali ke Produk Serum
+            </div>
+            
+            <div class="qa-feed-header" style="border-bottom-color: var(--accent-serum);">
+                <h2 style="color: var(--accent-serum-dark);">Diskusi Tabela Serum</h2>
+                <p style="color: var(--text-light);">Khusus tanya jawab seputar Tabela Serum.</p>
+            </div>
+
+            <div class="forum-wrapper">
+                <div class="form-card">
+                    <h3 style="margin-bottom: 1.5rem;">Ajukan Pertanyaan (Serum)</h3>
+                    <form id="qaForm-serum" onsubmit="postQuestion(event, 'Tabela Serum')">
+                        <div class="form-group">
+                            <label class="form-label">Nama</label>
+                            <input type="text" id="askerName-serum" class="form-input" placeholder="Nama kamu" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Produk</label>
+                            <!-- Dropdown Terkunci ke Tabela Serum -->
+                            <select id="askProduct-serum" class="form-select" disabled>
+                                <option value="Tabela Serum" selected>Tabela Serum</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Pertanyaan</label>
+                            <textarea id="askContent-serum" class="form-textarea" rows="4" placeholder="Tanya seputar Serum..." required></textarea>
+                        </div>
+                        <button type="submit" class="submit-btn">
+                            Kirim ke Forum Serum <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Feed Serum Saja -->
+                <div class="qa-feed" id="qaFeed-serum"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; Sejak 2025 GlowSkin Indonesia</p>
+    </footer>
+
+    <script>
+        // --- 1. DATA & LOCAL STORAGE ---
+        const defaultQuestions = [
+            {
+                id: 1,
+                name: "Siti Aminah",
+                product: "Bawi Toner",
+                question: "Apakah toner ini beneran aman buat kulit yang sedang breakout parah? Saya takut perih.",
+                answer: "Halo Kak Siti, sangat aman karena mengandung bahan alami seperti Bajakah yang bersifat anti-inflamasi. Jadi akan membantu meredakan perihnya, Kak.",
+                date: "2 jam yang lalu"
+            },
+            {
+                id: 2,
+                name: "Rudi Hartono",
+                product: "Tabela Serum",
+                question: "Kalau dipakai siang hari butuh sunscreen gak ya?",
+                answer: "Tentu butuh Kak! Mengandung Vitamin C yang membuat kulit lebih sensitif terhadap sinar matahari. Wajib pakai SPF minimal PA+++.",
+                date: "5 jam yang lalu"
+            }
+        ];
+
+        // Load data dari storage atau gunakan default
+        let questions = JSON.parse(localStorage.getItem('glowSkinQuestions')) || defaultQuestions;
+
+        function saveQuestions() {
+            localStorage.setItem('glowSkinQuestions', JSON.stringify(questions));
+        }
+
+        // --- 2. NAVIGASI ---
+        function navigateTo(viewName) {
+            const views = [
+                'view-home', 
+                'view-toner', 
+                'view-serum', 
+                'view-toner-forum', 
+                'view-serum-forum'
+            ];
+            
+            views.forEach(id => {
+                document.getElementById(id).classList.add('hidden');
+            });
+
+            if (viewName === 'toner') {
+                document.getElementById('view-toner').classList.remove('hidden');
+            } else if (viewName === 'serum') {
+                document.getElementById('view-serum').classList.remove('hidden');
+            } else if (viewName === 'toner-forum') {
+                document.getElementById('view-toner-forum').classList.remove('hidden');
+                renderFeed('Bawi Toner'); // Render khusus Toner
+            } else if (viewName === 'serum-forum') {
+                document.getElementById('view-serum-forum').classList.remove('hidden');
+                renderFeed('Tabela Serum'); // Render khusus Serum
+            } else {
+                document.getElementById('view-home').classList.remove('hidden');
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // --- 3. RENDER FORUM (DIFILTER) ---
+        function renderFeed(productFilter) {
+            // Tentukan container mana yang mau diisi
+            let containerId = productFilter === 'Bawi Toner' ? 'qaFeed-toner' : 'qaFeed-serum';
+            const feedContainer = document.getElementById(containerId);
+            feedContainer.innerHTML = ''; 
+
+            // Filter data berdasarkan produk
+            const filteredQuestions = questions.filter(q => q.product === productFilter);
+
+            // Jika kosong
+            if(filteredQuestions.length === 0) {
+                feedContainer.innerHTML = '<p style="text-align:center; color:#999; padding:2rem;">Belum ada diskusi untuk produk ini. Jadilah yang pertama bertanya!</p>';
+                return;
+            }
+
+            // Loop data yang sudah difilter
+            filteredQuestions.forEach((q, index) => {
+                // Catatan: index di sini adalah index di array terfilter, bukan array utama.
+                // Kita butuh index asli untuk delete. Cari index asli:
+                const originalIndex = questions.findIndex(item => item.id === q.id);
+
+                const hasAnswer = q.answer !== null;
+                
+                const html = `
+                    <div class="qa-card">
+                        <button class="delete-btn" onclick="deleteQuestion(${originalIndex})" title="Hapus Pertanyaan">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+
+                        <div class="qa-meta">
+                            <div class="qa-avatar"><i class="fas fa-user"></i></div>
+                            <div>
+                                <span class="qa-name">${q.name}</span> • <span style="font-size: 0.8rem; color: #999;">${q.date}</span>
+                                <div style="font-size: 0.75rem; background: ${getProductColor(q.product)}; color: white; padding: 2px 8px; border-radius: 4px; display: inline-block; margin-left: 5px;">${q.product}</div>
+                            </div>
+                        </div>
+                        <div class="qa-question">${q.question}</div>
+
+                        ${hasAnswer ? `
+                            <div class="qa-answer">
+                                <div class="qa-answer-header"><i class="fas fa-comment-medical"></i> Jawaban:</div>
+                                ${q.answer}
+                            </div>
+                        ` : `
+                            <div class="reply-form" id="replyForm-${originalIndex}">
+                                <input type="text" id="replyText-${originalIndex}" class="form-input" placeholder="Tulis jawabanmu..." style="margin-bottom: 5px;">
+                                <button onclick="submitReply(${originalIndex})" class="btn-card" style="font-size: 0.8rem; padding: 5px 15px; background-color: var(--accent-toner);">Kirim Jawaban</button>
+                            </div>
+                            <button onclick="toggleReply(${originalIndex})" class="btn-reply"><i class="fas fa-reply"></i> Jawab</button>
+                        `}
+                    </div>
+                `;
+                feedContainer.innerHTML += html;
+            });
+        }
+
+        function getProductColor(product) {
+            if (product.includes('Toner')) return '#9e8fb2';
+            if (product.includes('Serum')) return '#e6a4a4';
+            return '#999';
+        }
+
+        // --- 4. POSTING PERTANYAAN ---
+        function postQuestion(e, productName) {
+            e.preventDefault();
+            
+            // Ambil ID input berdasarkan produk mana yang sedang aktif
+            const nameId = productName === 'Bawi Toner' ? 'askerName-toner' : 'askerName-serum';
+            const contentId = productName === 'Bawi Toner' ? 'askContent-toner' : 'askContent-serum';
+
+            const name = document.getElementById(nameId).value;
+            const content = document.getElementById(contentId).value;
+
+            const newQuestion = {
+                id: Date.now(),
+                name: name,
+                product: productName, // Hardcode sesuai halaman
+                question: content,
+                answer: null,
+                date: "Baru saja"
+            };
+
+            questions.unshift(newQuestion);
+            saveQuestions();
+            
+            // Reset form yang sesuai
+            document.getElementById(nameId).value = '';
+            document.getElementById(contentId).value = '';
+            
+            // Re-render forum yang aktif
+            renderFeed(productName);
+            
+            alert("Pertanyaan berhasil dikirim!");
+        }
+
+        // --- 5. JAWAB & HAPUS ---
+        function toggleReply(index) {
+            const form = document.getElementById(`replyForm-${index}`);
+            if (form.style.display === 'block') {
+                form.style.display = 'none';
+                form.classList.remove('active');
+            } else {
+                form.style.display = 'block';
+                form.classList.add('active');
+            }
+        }
+
+        function submitReply(index) {
+            const input = document.getElementById(`replyText-${index}`);
+            const replyText = input.value;
+
+            if (replyText.trim() !== "") {
+                questions[index].answer = replyText;
+                saveQuestions();
+                
+                // Kita harus re-render kedua forum jika perlu, tapi cukup render ulang halaman yang sedang aktif
+                // Cek produk dari pertanyaan yang dijawab
+                const product = questions[index].product;
+                renderFeed(product);
+            } else {
+                alert("Mohon isi jawaban terlebih dahulu.");
+            }
+        }
+
+        function deleteQuestion(index) {
+            if (confirm("Hapus pertanyaan ini?")) {
+                const product = questions[index].product;
+                questions.splice(index, 1);
+                saveQuestions();
+                renderFeed(product);
+            }
+        }
+    </script>
+</body>
+</html>
