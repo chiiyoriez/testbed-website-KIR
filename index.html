@@ -30,6 +30,7 @@
             --shadow: 0 10px 30px rgba(0,0,0,0.08);
             --transition: all 0.3s ease;
             --bright-gradient: linear-gradient(45deg, #FF6B6B, #FF8E53);
+            --admin-color: #FF9800; /* Warna Admin (Oranye/Emas) */
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -165,6 +166,20 @@
         .reply-form-input-area { margin-top: 1rem; margin-left: 45px; display: none; }
         .reply-form-input-area.active { display: block; animation: fadeIn 0.3s; }
 
+        /* ADMIN STYLES */
+        .badge-admin {
+            background-color: var(--admin-color);
+            color: white;
+            font-size: 0.65rem;
+            font-weight: 800;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-left: 5px;
+            vertical-align: middle;
+            letter-spacing: 0.5px;
+            box-shadow: 0 2px 5px rgba(255, 152, 0, 0.3);
+        }
+
         footer { background-color: var(--white); padding: 2rem; text-align: center; border-top: 1px solid #eee; margin-top: auto; }
 
         @media (max-width: 900px) { .forum-wrapper { grid-template-columns: 1fr; } .form-card { position: static; } }
@@ -193,6 +208,7 @@
                 <!-- Tampilan Sudah Login (Hidden by default) -->
                 <div id="user-profile-nav" class="user-profile hidden">
                     <span id="display-name">User</span>
+                    <span id="admin-badge-nav" class="badge-admin hidden">ADMIN</span>
                     <span class="logout-btn" onclick="handleLogout()"><i class="fas fa-sign-out-alt"></i> Logout</span>
                 </div>
             </div>
@@ -279,7 +295,6 @@
                 <div class="form-card">
                     <h3 style="margin-bottom: 1.5rem;">Ajukan Pertanyaan (Toner)</h3>
                     <form id="qaForm-toner" onsubmit="postQuestion(event, 'Bawi Toner')">
-                        <!-- INPUT NAMA DITAMBAHKAN KEMBALI SESUAI REQUEST -->
                         <div class="form-group">
                             <label class="form-label">Nama</label>
                             <input type="text" id="askerName-toner" class="form-input" placeholder="Tulis nama Anda..." required>
@@ -315,7 +330,6 @@
                 <div class="form-card">
                     <h3 style="margin-bottom: 1.5rem;">Ajukan Pertanyaan (Serum)</h3>
                     <form id="qaForm-serum" onsubmit="postQuestion(event, 'Tabela Serum')">
-                        <!-- INPUT NAMA DITAMBAHKAN KEMBALI SESUAI REQUEST -->
                         <div class="form-group">
                             <label class="form-label">Nama</label>
                             <input type="text" id="askerName-serum" class="form-input" placeholder="Tulis nama Anda..." required>
@@ -341,6 +355,9 @@
     <section id="view-login" class="hidden fade-in">
         <div class="auth-container">
             <h2>Login Akun</h2>
+            <p style="font-size:0.8rem; color:#888; margin-bottom:1rem;">
+                Gunakan email <strong>admin@glowskin.com</strong> untuk login sebagai Admin.
+            </p>
             <form onsubmit="handleLogin(event)">
                 <div class="form-group">
                     <label class="form-label">Email</label>
@@ -387,7 +404,7 @@
 
     <script>
         // ==========================================
-        // 1. KONFIGURASI FIREBASE
+        // 1. KONFIGURASI FIREBASE & ADMIN
         // ==========================================
         const firebaseConfig = {
             apiKey: "AIzaSyChfGHmmnynHcIrspY17--RVKMyj609HUg",
@@ -400,6 +417,9 @@
             measurementId: "G-Y5RVQQ2FQ9"
         };
 
+        // EMAIL KHUSUS UNTUK ADMIN
+        const ADMIN_EMAIL = "admin@glowskin.com"; 
+
         // Inisialisasi Firebase
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
@@ -409,19 +429,23 @@
         let currentUser = null; 
 
         // ==========================================
-        // 2. AUTH STATE (Cek Status Login & Update UI Nama)
+        // 2. AUTH STATE (Cek Status Login & Admin)
         // ==========================================
         auth.onAuthStateChanged((user) => {
             currentUser = user;
             updateAuthUI(user);
         });
 
+        function isAdmin() {
+            return currentUser && currentUser.email === ADMIN_EMAIL;
+        }
+
         function updateAuthUI(user) {
             const loginBtn = document.getElementById('btn-login-nav');
             const profileDiv = document.getElementById('user-profile-nav');
             const displayName = document.getElementById('display-name');
+            const adminBadgeNav = document.getElementById('admin-badge-nav');
             
-            // Ambil input nama di forum
             const nameInputToner = document.getElementById('askerName-toner');
             const nameInputSerum = document.getElementById('askerName-serum');
 
@@ -429,23 +453,28 @@
                 // SUDAH LOGIN
                 loginBtn.classList.add('hidden');
                 profileDiv.classList.remove('hidden');
-                displayName.innerText = user.displayName || user.email.split('@')[0];
                 
-                // Isi otomatis kolom nama di form jika belum diisi manual oleh user
-                // (Hanya isi jika kosong agar tidak menimpa tulisan user jika sedang mengetik)
-                if(nameInputToner && nameInputToner.value === "") {
-                    nameInputToner.value = user.displayName || user.email.split('@')[0];
-                }
-                if(nameInputSerum && nameInputSerum.value === "") {
-                    nameInputSerum.value = user.displayName || user.email.split('@')[0];
+                const nameToShow = user.displayName || user.email.split('@')[0];
+                displayName.innerText = nameToShow;
+
+                // Tampilkan badge admin jika login sebagai admin
+                if(isAdmin()) {
+                    adminBadgeNav.classList.remove('hidden');
+                    // Auto isi nama jadi Admin jika belum diisi
+                    if(nameInputToner && nameInputToner.value === "") nameInputToner.value = "Admin GlowSkin";
+                    if(nameInputSerum && nameInputSerum.value === "") nameInputSerum.value = "Admin GlowSkin";
+                } else {
+                    adminBadgeNav.classList.add('hidden');
+                    // Auto isi nama user biasa
+                    if(nameInputToner && nameInputToner.value === "") nameInputToner.value = nameToShow;
+                    if(nameInputSerum && nameInputSerum.value === "") nameInputSerum.value = nameToShow;
                 }
 
             } else {
                 // BELUM LOGIN
                 loginBtn.classList.remove('hidden');
                 profileDiv.classList.add('hidden');
-                
-                // Kosongkan kolom nama
+                adminBadgeNav.classList.add('hidden');
                 if(nameInputToner) nameInputToner.value = "";
                 if(nameInputSerum) nameInputSerum.value = "";
             }
@@ -461,7 +490,7 @@
 
             auth.signInWithEmailAndPassword(email, password)
                 .then((userCredential) => {
-                    alert("Login Berhasil!");
+                    alert("Login Berhasil! Selamat datang " + (isAdmin() ? "Admin" : "User"));
                     navigateTo('home');
                 })
                 .catch((error) => {
@@ -477,7 +506,6 @@
 
             auth.createUserWithEmailAndPassword(email, password)
                 .then((userCredential) => {
-                    // Set nama profil user
                     userCredential.user.updateProfile({ displayName: name })
                         .then(() => {
                             alert("Registrasi Berhasil! Selamat Datang, " + name);
@@ -547,7 +575,7 @@
         }
 
         // ==========================================
-        // 6. RENDER FORUM
+        // 6. RENDER FORUM (LOGIC USER & ADMIN)
         // ==========================================
         function renderFeed(productFilter) {
             let containerId = productFilter === 'Bawi Toner' ? 'qaFeed-toner' : 'qaFeed-serum';
@@ -561,21 +589,39 @@
                 return;
             }
 
+            // Cek apakah user login adalah admin
+            const currentUserIsAdmin = isAdmin();
+
             filteredQuestions.forEach((q) => {
-                // Cek apakah ini pertanyaan saya (berdasarkan Email Auth)
+                // Cek kepemilikan pertanyaan
                 const isMyQuestion = (currentUser && q.userEmail === currentUser.email);
+                
+                // Cek apakah penanya adalah admin
+                const isAuthorAdmin = (q.userEmail === ADMIN_EMAIL);
+                
+                // Admin punya akses hapus miliknya ATAU admin bisa hapus semuanya
+                const canDelete = isMyQuestion || currentUserIsAdmin;
+
                 const questionClass = isMyQuestion ? 'qa-card my-question' : 'qa-card';
+                
+                // Tampilkan Badge Admin jika penanya adalah admin
+                const adminBadge = isAuthorAdmin ? '<span class="badge-admin">ADMIN</span>' : '';
                 
                 let repliesHTML = '';
                 if (q.replies) {
                     const replyList = Object.keys(q.replies).map(key => q.replies[key]);
                     replyList.forEach(r => {
                         const isMyReply = (currentUser && r.userEmail === currentUser.email);
+                        const isReplyAuthorAdmin = (r.userEmail === ADMIN_EMAIL);
                         const replyClass = isMyReply ? 'reply-item my-reply' : 'reply-item';
+                        
+                        // Badge Admin untuk Reply
+                        const replyAdminBadge = isReplyAuthorAdmin ? '<span class="badge-admin">ADMIN</span>' : '';
+
                         repliesHTML += `
                             <div class="${replyClass}">
                                 <div class="reply-header">
-                                    <span class="reply-name">${r.name}</span>
+                                    <span class="reply-name">${r.name} ${replyAdminBadge}</span>
                                     <span>${r.date}</span>
                                 </div>
                                 <div>${r.text}</div>
@@ -584,16 +630,19 @@
                     });
                 }
 
+                const deleteBtnHtml = canDelete ? 
+                    `<button class="delete-btn" onclick="deleteQuestion(${q.id})"><i class="fas fa-trash-alt"></i></button>` : '';
+
                 const html = `
                     <div class="${questionClass}">
                         ${isMyQuestion ? '<div style="position:absolute; top:-10px; left:20px; background:var(--accent-me); color:white; padding:2px 10px; font-size:0.7rem; border-radius:10px;">Pertanyaan Anda</div>' : ''}
                         
-                        <button class="delete-btn" onclick="deleteQuestion(${q.id})"><i class="fas fa-trash-alt"></i></button>
+                        ${deleteBtnHtml}
 
                         <div class="qa-meta">
                             <div class="qa-avatar"><i class="fas fa-user"></i></div>
                             <div>
-                                <span class="qa-name">${q.name}</span> • <span style="font-size: 0.8rem; color: #999;">${q.date}</span>
+                                <span class="qa-name">${q.name} ${adminBadge}</span> • <span style="font-size: 0.8rem; color: #999;">${q.date}</span>
                                 <div style="font-size: 0.75rem; background: ${getProductColor(q.product)}; color: white; padding: 2px 8px; border-radius: 4px; display: inline-block; margin-left: 5px;">${q.product}</div>
                             </div>
                         </div>
@@ -621,12 +670,11 @@
         }
 
         // ==========================================
-        // 7. AKSI POST (MENGAMBIL NAMA DARI INPUT MANUAL)
+        // 7. AKSI POST
         // ==========================================
         function postQuestion(e, productName) {
             e.preventDefault();
             
-            // Cek nama dari input manual (id: askerName-toner / askerName-serum)
             const nameId = productName === 'Bawi Toner' ? 'askerName-toner' : 'askerName-serum';
             const contentId = productName === 'Bawi Toner' ? 'askContent-toner' : 'askContent-serum';
             
@@ -635,13 +683,12 @@
 
             if (!nameVal.trim()) { alert("Nama harus diisi!"); return; }
 
-            // Simpan email user untuk hak akses (jika login)
             const userEmail = currentUser ? currentUser.email : "guest@example.com";
 
             const newQuestion = {
                 id: Date.now(),
                 timestamp: Date.now(),
-                name: nameVal, // Menggunakan nilai dari input text (bisa diedit user)
+                name: nameVal, 
                 userEmail: userEmail, 
                 product: productName,
                 question: content,
@@ -651,7 +698,6 @@
 
             database.ref('questions').push(newQuestion);
             document.getElementById(contentId).value = '';
-            // Jangan reset nama agar user tidak perlu ketik ulang jika mau post lagi
             alert("Pertanyaan berhasil dikirim!");
         }
 
@@ -666,7 +712,7 @@
                     if (snapshot.exists()) {
                         const key = Object.keys(snapshot.val())[0];
                         const newReply = {
-                            name: currentUser.displayName || "User", // Reply pakai nama login agar konsisten
+                            name: currentUser.displayName || "User", // Pakai nama login untuk reply
                             userEmail: currentUser.email,
                             text: replyText,
                             date: "Baru saja"
@@ -674,7 +720,7 @@
                         database.ref('questions/' + key + '/replies').push(newReply);
                         
                         input.value = '';
-                        const form = document.getElementById(`replyForm-${qId}`);
+                        const form = document.getElementById(`replyForm-${q.id}`);
                         form.style.display = 'none';
                     }
                 });
@@ -683,8 +729,16 @@
 
         function deleteQuestion(qId) {
             if (!currentUser) return;
-            
-            // Hanya bisa hapus jika itu pertanyaan milik sendiri (berdasarkan email)
+
+            // Jika Admin, langsung hapus
+            if (isAdmin()) {
+                if (confirm("Anda adalah Admin. Hapus pertanyaan ini?")) {
+                    performDelete(qId);
+                }
+                return;
+            }
+
+            // Jika User Biasa, cek kepemilikan
             const qIndex = questions.findIndex(q => q.id === qId);
             if(qIndex > -1 && questions[qIndex].userEmail !== currentUser.email) {
                 alert("Anda tidak bisa menghapus pertanyaan orang lain!");
@@ -692,12 +746,16 @@
             }
 
             if (confirm("Hapus pertanyaan ini?")) {
-                database.ref('questions').orderByChild('id').equalTo(qId).once('value', snapshot => {
-                    snapshot.forEach(child => {
-                        child.ref.remove();
-                    });
-                });
+                performDelete(qId);
             }
+        }
+
+        function performDelete(qId) {
+            database.ref('questions').orderByChild('id').equalTo(qId).once('value', snapshot => {
+                snapshot.forEach(child => {
+                    child.ref.remove();
+                });
+            });
         }
 
         function toggleReply(qId) {
