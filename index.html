@@ -35,7 +35,7 @@
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        body { font-family: 'Poppins', sans-serif; background-color: var(--primary-bg); color: var(--text-dark); line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; }
+        body { font-family: 'Poppins', sans-serif; background-color: var(--primary-bg); color: var(--text-dark); line-height:1.6; min-height: 100vh; display: flex; flex-direction: column; }
 
         .hidden { display: none !important; }
         .fade-in { animation: fadeIn 0.5s ease-in-out; }
@@ -46,11 +46,16 @@
         .logo { font-size: 1.5rem; font-weight: 700; color: var(--text-dark); display: flex; align-items: center; gap: 10px; cursor: pointer; z-index: 1002; }
         
         /* Desktop Nav */
-        nav.desktop-nav { display: flex; gap: 1.2rem; align-items: center; }
+        nav.desktop-nav { display: flex; gap:1.2rem; align-items: center; }
         
-        /* Mobile Menu Button */
+        /* Mobile Menu Button (Strip 3) */
         .mobile-menu-btn { 
             display: none; font-size: 1.5rem; color: var(--text-dark); cursor: pointer; z-index: 1002; background: none; border: none;
+        }
+
+        /* Mobile Auth Button (Visible only on mobile, separate from menu) */
+        .mobile-auth-btn {
+            display: none; /* Hidden on Desktop */
         }
 
         .nav-link { text-decoration: none; color: var(--text-light); font-weight: 600; cursor: pointer; transition: var(--transition); font-size: 0.9rem; }
@@ -62,7 +67,7 @@
         .mobile-menu-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
             background-color: var(--white); z-index: 1001;
-            transform: translateX(100%); /* Hide off-screen right */
+            transform: translateX(100%);
             transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex; flex-direction: column; padding: 5rem 1.5rem 2rem;
             overflow-y: auto;
@@ -73,15 +78,8 @@
             position: absolute; top: 1.2rem; right: 5%; font-size: 1.5rem; cursor: pointer; color: var(--text-dark);
         }
 
-        .mobile-nav-links { display: flex; flex-direction: column; gap: 1.5rem; margin-bottom: 2rem; }
+        .mobile-nav-links { display: flex; flex-direction: column; gap: 1.5rem; }
         .mobile-nav-item { font-size: 1.2rem; font-weight: 600; color: var(--text-dark); text-decoration: none; border-bottom: 1px solid #f0f0f0; padding-bottom: 0.5rem; }
-        
-        /* Mobile Auth Container (Terpisah di bawah) */
-        .mobile-auth-container {
-            margin-top: auto; /* Push to bottom */
-            background: #f9f9f9; padding: 1.5rem; border-radius: 15px; border: 1px solid #eee;
-        }
-        .mobile-auth-label { font-size: 0.8rem; text-transform: uppercase; color: #888; margin-bottom: 10px; font-weight: 700; }
 
         /* BUTTONS AUTH */
         .auth-btn {
@@ -160,7 +158,7 @@
         .action-btn:hover { opacity: 0.9; transform: scale(1.02); }
 
         /* FORUM UI */
-        .qa-feed-header { margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 2px solid #eee; }
+        .qa-feed-header { margin-bottom: 1.5rem; padding-bottom:1rem; border-bottom: 2px solid #eee; }
         .forum-wrapper { display: grid; grid-template-columns: 1fr 1.5fr; gap: 2rem; align-items: start; }
         .form-card { background: var(--white); padding: 2rem; border-radius: 20px; box-shadow: var(--shadow); position: sticky; top: 100px; }
         
@@ -224,9 +222,13 @@
             .detail-content { padding: 2rem; } 
             .hero h1 { font-size: 2rem; } 
             
-            /* Hide Desktop Nav, Show Mobile Button */
+            /* Hide Desktop Nav, Show Mobile Button & Mobile Auth */
             .desktop-nav { display: none; } 
-            .mobile-menu-btn { display: block; } 
+            .mobile-menu-btn { display: block; }
+            .mobile-auth-btn { display: flex; align-items: center; }
+            
+            /* Compact Header for Mobile */
+            header { padding: 0.8rem 5%; }
         }
     </style>
 </head>
@@ -238,6 +240,16 @@
             <i class="fas fa-leaf"></i> GlowSkin
         </div>
         
+        <!-- Mobile Auth Button (Visible only on Mobile) -->
+        <div id="mobile-auth-header" class="mobile-auth-btn">
+            <button id="btn-login-mobile" class="auth-btn" onclick="navigateTo('login')">Login</button>
+            <div id="user-profile-mobile" class="user-profile hidden">
+                <span id="display-name-mobile">User</span>
+                <span id="admin-badge-mobile" class="badge-admin hidden">ADMIN</span>
+                <span class="logout-btn" onclick="handleLogout()"><i class="fas fa-sign-out-alt"></i></span>
+            </div>
+        </div>
+
         <!-- Desktop Navigation (Hidden on Mobile) -->
         <nav class="desktop-nav">
             <a class="nav-link toner-link" onclick="navigateTo('toner')">Toner</a>
@@ -275,18 +287,9 @@
             <a class="mobile-nav-item" onclick="navigateTo('toner-forum'); toggleMenu()">Diskusi Toner</a>
             <a class="mobile-nav-item" onclick="navigateTo('serum-forum'); toggleMenu()">Diskusi Serum</a>
         </div>
-
-        <!-- Mobile Auth Section (Terpisah di bawah) -->
-        <div class="mobile-auth-container">
-            <div class="mobile-auth-label">Akun Saya</div>
-            <div id="mobile-auth-display">
-                <!-- Content will be filled by JS -->
-                <button class="primary-btn" onclick="navigateTo('login'); toggleMenu()">Login</button>
-            </div>
-        </div>
     </div>
 
-    <!-- VIEW 1: HOME -->
+    <!-- VIEW1: HOME -->
     <main id="view-home" class="fade-in">
         <section class="hero">
             <h1>Pilih Jenis Perawatan</h1>
@@ -498,7 +501,7 @@
         let currentUser = null; 
 
         // ==========================================
-        // 2. AUTH STATE & MOBILE MENU
+        // 2. AUTH STATE & UI UPDATE
         // ==========================================
         auth.onAuthStateChanged((user) => {
             currentUser = user;
@@ -510,60 +513,59 @@
         }
 
         function updateAuthUI(user) {
-            // Desktop UI
-            const loginBtn = document.getElementById('btn-login-nav');
-            const profileDiv = document.getElementById('user-profile-nav');
-            const displayName = document.getElementById('display-name');
+            // Desktop Elements
+            const loginBtnNav = document.getElementById('btn-login-nav');
+            const profileDivNav = document.getElementById('user-profile-nav');
+            const displayNameNav = document.getElementById('display-name');
             const adminBadgeNav = document.getElementById('admin-badge-nav');
             
-            // Mobile UI
-            const mobileAuthDisplay = document.getElementById('mobile-auth-display');
+            // Mobile Elements (Header)
+            const loginBtnMobile = document.getElementById('btn-login-mobile');
+            const profileDivMobile = document.getElementById('user-profile-mobile');
+            const displayNameMobile = document.getElementById('display-name-mobile');
+            const adminBadgeMobile = document.getElementById('admin-badge-mobile');
             
+            // Form Inputs
             const nameInputToner = document.getElementById('askerName-toner');
             const nameInputSerum = document.getElementById('askerName-serum');
 
             if (user) {
                 // SUDAH LOGIN
-                loginBtn.classList.add('hidden');
-                profileDiv.classList.remove('hidden');
+                // Hide Login Buttons
+                loginBtnNav.classList.add('hidden');
+                loginBtnMobile.classList.add('hidden');
+                
+                // Show Profiles
+                profileDivNav.classList.remove('hidden');
+                profileDivMobile.classList.remove('hidden');
                 
                 const nameToShow = user.displayName || user.email.split('@')[0];
-                displayName.innerText = nameToShow;
-
-                // Mobile Auth Content
-                let mobileHtml = `
-                    <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
-                        <div style="width:40px; height:40px; background:var(--primary-bg); border-radius:50%; display:flex; align-items:center; justify-content:center;">
-                            <i class="fas fa-user"></i>
-                        </div>
-                        <div style="text-align:left;">
-                            <div style="font-weight:700; color:var(--text-dark);">${nameToShow}</div>
-                            ${isAdmin() ? '<span class="badge-admin">ADMIN</span>' : ''}
-                        </div>
-                    </div>
-                    <button class="primary-btn" style="background:#eee; color:#333; font-size:0.9rem;" onclick="handleLogout(); toggleMenu()">Logout</button>
-                `;
-                mobileAuthDisplay.innerHTML = mobileHtml;
+                displayNameNav.innerText = nameToShow;
+                displayNameMobile.innerText = nameToShow;
 
                 // Admin Logic
                 if(isAdmin()) {
                     adminBadgeNav.classList.remove('hidden');
+                    adminBadgeMobile.classList.remove('hidden');
                     if(nameInputToner && nameInputToner.value === "") nameInputToner.value = "Admin GlowSkin";
                     if(nameInputSerum && nameInputSerum.value === "") nameInputSerum.value = "Admin GlowSkin";
                 } else {
                     adminBadgeNav.classList.add('hidden');
+                    adminBadgeMobile.classList.add('hidden');
                     if(nameInputToner && nameInputToner.value === "") nameInputToner.value = nameToShow;
                     if(nameInputSerum && nameInputSerum.value === "") nameInputSerum.value = nameToShow;
                 }
 
             } else {
                 // BELUM LOGIN
-                loginBtn.classList.remove('hidden');
-                profileDiv.classList.add('hidden');
-                adminBadgeNav.classList.add('hidden');
+                loginBtnNav.classList.remove('hidden');
+                loginBtnMobile.classList.remove('hidden');
                 
-                // Mobile Auth Content
-                mobileAuthDisplay.innerHTML = `<button class="primary-btn" onclick="navigateTo('login'); toggleMenu()">Login / Daftar</button>`;
+                profileDivNav.classList.add('hidden');
+                profileDivMobile.classList.add('hidden');
+                
+                adminBadgeNav.classList.add('hidden');
+                adminBadgeMobile.classList.add('hidden');
                 
                 if(nameInputToner) nameInputToner.value = "";
                 if(nameInputSerum) nameInputSerum.value = "";
