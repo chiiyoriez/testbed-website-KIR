@@ -13,6 +13,8 @@
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+    <!-- Tambahkan Firebase Auth SDK untuk Login -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
 
     <style>
         :root {
@@ -41,16 +43,23 @@
         /* --- HEADER --- */
         header { background-color: var(--white); padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 1000; }
         .logo { font-size: 1.5rem; font-weight: 700; color: var(--text-dark); display: flex; align-items: center; gap: 10px; cursor: pointer; }
-        nav { display: flex; gap: 1.2rem; }
+        nav { display: flex; gap: 1.2rem; align-items: center; }
         .nav-link { text-decoration: none; color: var(--text-light); font-weight: 600; cursor: pointer; transition: var(--transition); font-size: 0.9rem; }
         .nav-link:hover { color: var(--text-dark); }
         .nav-link.toner-link:hover { color: var(--accent-toner); }
         .nav-link.serum-link:hover { color: var(--accent-serum); }
 
-        /* --- USER SWITCHER --- */
-        .user-switcher-container { background: #fff; padding: 10px 20px; border-radius: 50px; display: flex; align-items: center; gap: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); margin: 0 auto 2rem; width: fit-content; border: 1px solid #eee; }
-        .user-switcher-container label { font-size: 0.9rem; font-weight: 600; color: var(--text-light); }
-        .user-switcher-container select { padding: 8px 15px; border-radius: 10px; border: 1px solid #ddd; font-family: 'Poppins'; background-color: #fafafa; cursor: pointer; }
+        /* BUTTONS AUTH */
+        .auth-btn {
+            background: var(--white); border: 1px solid #ddd; padding: 8px 20px; 
+            border-radius: 50px; cursor: pointer; font-weight: 600; color: var(--text-light); 
+            transition: var(--transition); font-size: 0.9rem;
+        }
+        .auth-btn:hover { border-color: var(--accent-me); color: var(--accent-me); }
+        
+        .user-profile { display: flex; align-items: center; gap: 10px; font-size: 0.9rem; font-weight: 600; color: var(--text-dark); }
+        .logout-btn { color: #ff4d4d; cursor: pointer; border: none; background: none; font-size: 0.9rem; }
+        .logout-btn:hover { text-decoration: underline; }
 
         /* --- CARDS & SELECTION --- */
         .hero { text-align: center; padding: 3rem 1rem 1rem; max-width: 800px; margin: 0 auto; }
@@ -74,6 +83,24 @@
         .toner-card .btn-card { background-color: var(--accent-toner); }
         .serum-card .btn-card { background-color: var(--accent-serum); }
 
+        /* --- AUTH FORMS (LOGIN & REGISTER) --- */
+        .auth-container {
+            max-width: 400px; margin: 4rem auto; padding: 2rem;
+            background: var(--white); border-radius: 20px; box-shadow: var(--shadow); text-align: center;
+        }
+        .auth-container h2 { margin-bottom: 1.5rem; color: var(--accent-toner-dark); }
+        .form-group { margin-bottom: 1.2rem; text-align: left; }
+        .form-label { display: block; margin-bottom: 0.5rem; font-weight: 600; font-size: 0.9rem; }
+        .form-input { width: 100%; padding: 12px 15px; border: 1px solid #ddd; border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: 0.95rem; transition: var(--transition); }
+        .form-input:focus { outline: none; border-color: var(--accent-toner); box-shadow: 0 0 0 3px rgba(158, 143, 178, 0.2); }
+        
+        .primary-btn { width: 100%; padding: 12px; background: var(--accent-toner); color: white; border: none; border-radius: 50px; font-weight: 700; cursor: pointer; transition: var(--transition); font-size: 1rem; }
+        .primary-btn:hover { background: var(--accent-toner-dark); transform: translateY(-2px); }
+
+        .auth-switch { margin-top: 1rem; font-size: 0.9rem; }
+        .auth-switch a { color: var(--accent-toner); font-weight: 600; text-decoration: none; cursor: pointer; }
+        .auth-switch a:hover { text-decoration: underline; }
+
         /* --- PRODUCT & FORUM --- */
         .product-page { padding: 2rem 5%; max-width: 1200px; margin: 0 auto 4rem; flex-grow: 1; }
         .detail-container { display: flex; flex-wrap: wrap; background: var(--white); border-radius: 30px; overflow: hidden; box-shadow: var(--shadow); }
@@ -81,7 +108,7 @@
         .detail-image img { width: 100%; height: 100%; object-fit: cover; }
         .detail-content { flex: 1 1 400px; padding: 3rem; display: flex; flex-direction: column; justify-content: center; }
         
-        .back-btn { display: inline-flex; align-items: center; gap: 8px; margin-bottom:1.5rem; color: var(--text-light); text-decoration: none; font-weight: 600; cursor: pointer; transition: var(--transition); }
+        .back-btn { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 1.5rem; color: var(--text-light); text-decoration: none; font-weight: 600; cursor: pointer; transition: var(--transition); }
         .back-btn:hover { color: var(--text-dark); transform: translateX(-5px); }
 
         .detail-content h2 { font-size: 2.5rem; margin-bottom: 0.5rem; }
@@ -103,7 +130,7 @@
         .forum-wrapper { display: grid; grid-template-columns: 1fr 1.5fr; gap: 2rem; align-items: start; }
         .form-card { background: var(--white); padding: 2rem; border-radius: 20px; box-shadow: var(--shadow); position: sticky; top: 100px; }
         
-        .form-group { margin-bottom:1.2rem; }
+        .form-group { margin-bottom: 1.2rem; }
         .form-label { display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--text-dark); }
         .form-input, .form-textarea, .form-select { width: 100%; padding: 12px 15px; border: 1px solid #ddd; border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: 0.95rem; transition: var(--transition); }
         .form-input:focus, .form-textarea:focus { outline: none; border-color: #FF6B6B; box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.1); }
@@ -115,7 +142,6 @@
         /* COMMENTS CARDS */
         .qa-card { background: var(--white); border-radius: 15px; padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 4px 10px rgba(0,0,0,0.05); transition: var(--transition); position: relative; border: 1px solid transparent; }
         .qa-card:hover { box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
-
         .qa-card.my-question { border: 2px solid var(--accent-me); background-color: #f9fff9; }
 
         .delete-btn { position: absolute; top: 15px; right: 15px; background: none; border: none; color: #ccc; cursor: pointer; font-size: 1rem; transition: var(--transition); padding: 5px; }
@@ -126,23 +152,10 @@
         .qa-name { font-weight: 700; color: var(--text-dark); }
         .qa-question { font-weight: 500; font-size: 1.1rem; color: var(--text-dark); margin-bottom: 1rem; }
 
-        /* MULTI REPLIES CONTAINER */
+        /* MULTI REPLIES */
         .qa-replies-list { margin-top: 1rem; border-top: 1px solid #eee; padding-top: 1rem; }
-        
-        /* Individual Reply Style */
-        .reply-item {
-            background: #fafafa;
-            padding: 10px 15px;
-            border-radius: 10px;
-            margin-bottom: 0.8rem;
-            border-left: 3px solid #ddd;
-            font-size: 0.95rem;
-        }
-        .reply-item.my-reply {
-            border-left-color: var(--accent-me);
-            background: #f0fff4;
-        }
-        
+        .reply-item { background: #fafafa; padding: 10px 15px; border-radius: 10px; margin-bottom: 0.8rem; border-left: 3px solid #ddd; font-size: 0.95rem; }
+        .reply-item.my-reply { border-left-color: var(--accent-me); background: #f0fff4; }
         .reply-header { font-size: 0.8rem; color: #888; margin-bottom: 4px; display: flex; justify-content: space-between; }
         .reply-name { font-weight: 700; color: var(--text-dark); }
 
@@ -160,15 +173,29 @@
 </head>
 <body>
 
+    <!-- Header -->
     <header>
         <div class="logo" onclick="navigateTo('home')">
             <i class="fas fa-leaf"></i> GlowSkin
         </div>
         <nav>
+            <!-- Link Produk -->
             <a class="nav-link toner-link" onclick="navigateTo('toner')">Toner</a>
             <a class="nav-link serum-link" onclick="navigateTo('serum')">Serum</a>
             <a class="nav-link toner-link" onclick="navigateTo('toner-forum')">Diskusi Toner</a>
             <a class="nav-link serum-link" onclick="navigateTo('serum-forum')">Diskusi Serum</a>
+            
+            <!-- Area Auth (Login / Profil) -->
+            <div id="auth-section">
+                <!-- Tampilan Belum Login (Default) -->
+                <button id="btn-login-nav" class="auth-btn" onclick="navigateTo('login')">Login</button>
+                
+                <!-- Tampilan Sudah Login (Hidden by default) -->
+                <div id="user-profile-nav" class="user-profile hidden">
+                    <span id="display-name">User</span>
+                    <span class="logout-btn" onclick="handleLogout()"><i class="fas fa-sign-out-alt"></i> Logout</span>
+                </div>
+            </div>
         </nav>
     </header>
 
@@ -243,17 +270,6 @@
         <div style="padding-bottom: 2rem;">
             <div class="back-btn" onclick="navigateTo('toner')"><i class="fas fa-arrow-left"></i> Kembali ke Produk Toner</div>
             
-            <div class="user-switcher-container">
-                <label><i class="fas fa-user-circle"></i> Login sebagai:</label>
-                <select id="user-select" onchange="changeUser(this.value)">
-                    <option value="Saya">Saya (Guest)</option>
-                    <option value="Admin GlowSkin">Admin GlowSkin</option>
-                    <option value="Siti Aminah">Siti Aminah</option>
-                    <option value="Rudi Hartono">Rudi Hartono</option>
-                    <option value="Dokter Kulit">Dokter Kulit</option>
-                </select>
-            </div>
-
             <div class="qa-feed-header" style="border-bottom-color: var(--accent-toner);">
                 <h2 style="color: var(--accent-toner-dark);">Diskusi Bawi Toner</h2>
                 <p style="color: var(--text-light);">Khusus tanya jawab seputar Bawi Toner.</p>
@@ -263,10 +279,7 @@
                 <div class="form-card">
                     <h3 style="margin-bottom: 1.5rem;">Ajukan Pertanyaan (Toner)</h3>
                     <form id="qaForm-toner" onsubmit="postQuestion(event, 'Bawi Toner')">
-                        <div class="form-group">
-                            <label class="form-label">Nama</label>
-                            <input type="text" id="askerName-toner" class="form-input" placeholder="Nama kamu" required>
-                        </div>
+                        <!-- Input Nama sudah dihapus, akan diambil dari Login -->
                         <div class="form-group">
                             <label class="form-label">Produk</label>
                             <select id="askProduct-toner" class="form-select" disabled><option value="Bawi Toner" selected>Bawi Toner</option></select>
@@ -288,17 +301,6 @@
         <div style="padding-bottom: 2rem;">
             <div class="back-btn" onclick="navigateTo('serum')"><i class="fas fa-arrow-left"></i> Kembali ke Produk Serum</div>
             
-            <div class="user-switcher-container">
-                <label><i class="fas fa-user-circle"></i> Login sebagai:</label>
-                <select id="user-select" onchange="changeUser(this.value)">
-                    <option value="Saya">Saya (Guest)</option>
-                    <option value="Admin GlowSkin">Admin GlowSkin</option>
-                    <option value="Siti Aminah">Siti Aminah</option>
-                    <option value="Rudi Hartono">Rudi Hartono</option>
-                    <option value="Dokter Kulit">Dokter Kulit</option>
-                </select>
-            </div>
-
             <div class="qa-feed-header" style="border-bottom-color: var(--accent-serum);">
                 <h2 style="color: var(--accent-serum-dark);">Diskusi Tabela Serum</h2>
                 <p style="color: var(--text-light);">Khusus tanya jawab seputar Tabela Serum.</p>
@@ -308,10 +310,6 @@
                 <div class="form-card">
                     <h3 style="margin-bottom: 1.5rem;">Ajukan Pertanyaan (Serum)</h3>
                     <form id="qaForm-serum" onsubmit="postQuestion(event, 'Tabela Serum')">
-                        <div class="form-group">
-                            <label class="form-label">Nama</label>
-                            <input type="text" id="askerName-serum" class="form-input" placeholder="Nama kamu" required>
-                        </div>
                         <div class="form-group">
                             <label class="form-label">Produk</label>
                             <select id="askProduct-serum" class="form-select" disabled><option value="Tabela Serum" selected>Tabela Serum</option></select>
@@ -324,6 +322,52 @@
                     </form>
                 </div>
                 <div class="qa-feed" id="qaFeed-serum"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- VIEW 6: LOGIN -->
+    <section id="view-login" class="hidden fade-in">
+        <div class="auth-container">
+            <h2>Login Akun</h2>
+            <form onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input type="email" id="login-email" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" id="login-pass" class="form-input" required>
+                </div>
+                <button type="submit" class="primary-btn">Masuk</button>
+            </form>
+            <div class="auth-switch">
+                Belum punya akun? <a onclick="navigateTo('register')">Daftar disini</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- VIEW 7: REGISTER -->
+    <section id="view-register" class="hidden fade-in">
+        <div class="auth-container">
+            <h2>Daftar Akun Baru</h2>
+            <form onsubmit="handleRegister(event)">
+                <div class="form-group">
+                    <label class="form-label">Nama Panggilan</label>
+                    <input type="text" id="reg-name" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input type="email" id="reg-email" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" id="reg-pass" class="form-input" required>
+                </div>
+                <button type="submit" class="primary-btn">Daftar</button>
+            </form>
+            <div class="auth-switch">
+                Sudah punya akun? <a onclick="navigateTo('login')">Login disini</a>
             </div>
         </div>
     </section>
@@ -348,12 +392,85 @@
         // Inisialisasi Firebase
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
+        const auth = firebase.auth(); // Inisialisasi Auth
 
         let questions = [];
-        let currentUser = "Saya";
+        let currentUser = null; // Akan diisi dari Auth
 
         // ==========================================
-        // 2. LISTEN KE DATABASE (REAL-TIME)
+        // 2. AUTH STATE (Cek Status Login)
+        // ==========================================
+        auth.onAuthStateChanged((user) => {
+            currentUser = user;
+            updateAuthUI(user);
+        });
+
+        function updateAuthUI(user) {
+            const loginBtn = document.getElementById('btn-login-nav');
+            const profileDiv = document.getElementById('user-profile-nav');
+            const displayName = document.getElementById('display-name');
+
+            if (user) {
+                // SUDAH LOGIN
+                loginBtn.classList.add('hidden');
+                profileDiv.classList.remove('hidden');
+                displayName.innerText = user.displayName || user.email.split('@')[0]; // Pakai nama jika ada, atau sebelum @
+            } else {
+                // BELUM LOGIN
+                loginBtn.classList.remove('hidden');
+                profileDiv.classList.add('hidden');
+            }
+        }
+
+        // ==========================================
+        // 3. FUNGSI LOGIN & REGISTER
+        // ==========================================
+        function handleLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-pass').value;
+
+            auth.signInWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                    alert("Login Berhasil!");
+                    navigateTo('home');
+                })
+                .catch((error) => {
+                    alert("Login Gagal: " + error.message);
+                });
+        }
+
+        function handleRegister(e) {
+            e.preventDefault();
+            const name = document.getElementById('reg-name').value;
+            const email = document.getElementById('reg-email').value;
+            const password = document.getElementById('reg-pass').value;
+
+            auth.createUserWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                    // Set nama profil user
+                    userCredential.user.updateProfile({ displayName: name })
+                        .then(() => {
+                            alert("Registrasi Berhasil! Selamat Datang, " + name);
+                            navigateTo('home');
+                        });
+                })
+                .catch((error) => {
+                    alert("Registrasi Gagal: " + error.message);
+                });
+        }
+
+        function handleLogout() {
+            if(confirm("Yakin ingin logout?")) {
+                auth.signOut()
+                    .then(() => {
+                        navigateTo('home');
+                    });
+            }
+        }
+
+        // ==========================================
+        // 4. LISTEN KE DATABASE
         // ==========================================
         function listenToDatabase() {
             const questionsRef = database.ref('questions');
@@ -374,41 +491,10 @@
         }
 
         // ==========================================
-        // 3. WRITE KE DATABASE
-        // ==========================================
-        function writeToDatabase(data) {
-            database.ref('questions').push(data);
-        }
-
-        function deleteFromDatabase(id) {
-            const questionsRef = database.ref('questions');
-            questionsRef.orderByChild('id').equalTo(id).once('value', snapshot => {
-                snapshot.forEach(child => {
-                    child.ref.remove();
-                });
-            });
-        }
-
-        // ==========================================
-        // 4. USER SWITCHER
-        // ==========================================
-        function changeUser(newUser) {
-            currentUser = newUser;
-            const tonerInput = document.getElementById('askerName-toner');
-            const serumInput = document.getElementById('askerName-serum');
-            if(tonerInput && !tonerInput.value) tonerInput.value = newUser;
-            if(serumInput && !serumInput.value) serumInput.value = newUser;
-
-            const activeView = document.querySelector('section:not(.hidden)').id;
-            if (activeView === 'view-toner-forum') renderFeed('Bawi Toner');
-            if (activeView === 'view-serum-forum') renderFeed('Tabela Serum');
-        }
-
-        // ==========================================
         // 5. NAVIGASI
         // ==========================================
         function navigateTo(viewName) {
-            const views = ['view-home', 'view-toner', 'view-serum', 'view-toner-forum', 'view-serum-forum'];
+            const views = ['view-home', 'view-toner', 'view-serum', 'view-toner-forum', 'view-serum-forum', 'view-login', 'view-register'];
             views.forEach(id => document.getElementById(id).classList.add('hidden'));
 
             if (viewName === 'toner') document.getElementById('view-toner').classList.remove('hidden');
@@ -419,6 +505,12 @@
             } else if (viewName === 'serum-forum') {
                 document.getElementById('view-serum-forum').classList.remove('hidden');
                 renderFeed('Tabela Serum');
+            } else if (viewName === 'login') {
+                if(currentUser) { alert("Anda sudah login!"); return; }
+                document.getElementById('view-login').classList.remove('hidden');
+            } else if (viewName === 'register') {
+                if(currentUser) { alert("Anda sudah login!"); return; }
+                document.getElementById('view-register').classList.remove('hidden');
             } else {
                 document.getElementById('view-home').classList.remove('hidden');
             }
@@ -426,7 +518,7 @@
         }
 
         // ==========================================
-        // 6. RENDER FORUM (DENGAN MULTI REPLY)
+        // 6. RENDER FORUM
         // ==========================================
         function renderFeed(productFilter) {
             let containerId = productFilter === 'Bawi Toner' ? 'qaFeed-toner' : 'qaFeed-serum';
@@ -436,23 +528,20 @@
             const filteredQuestions = questions.filter(q => q.product === productFilter);
 
             if(filteredQuestions.length === 0) {
-                feedContainer.innerHTML = '<p style="text-align:center; color:#999; padding:2rem;">Belum ada diskusi untuk produk ini. Jadilah yang pertama bertanya!</p>';
+                feedContainer.innerHTML = '<p style="text-align:center; color:#999; padding:2rem;">Belum ada diskusi untuk produk ini.</p>';
                 return;
             }
 
             filteredQuestions.forEach((q) => {
-                const isMyQuestion = (q.name === currentUser);
+                // Cek apakah ini pertanyaan saya (berdasarkan Email Auth)
+                const isMyQuestion = (currentUser && q.userEmail === currentUser.email);
                 const questionClass = isMyQuestion ? 'qa-card my-question' : 'qa-card';
                 
-                // Hitung jumlah balasan
-                const replyCount = q.replies ? Object.keys(q.replies).length : 0;
-
-                // Generate HTML untuk list replies
                 let repliesHTML = '';
                 if (q.replies) {
                     const replyList = Object.keys(q.replies).map(key => q.replies[key]);
                     replyList.forEach(r => {
-                        const isMyReply = (r.name === currentUser);
+                        const isMyReply = (currentUser && r.userEmail === currentUser.email);
                         const replyClass = isMyReply ? 'reply-item my-reply' : 'reply-item';
                         repliesHTML += `
                             <div class="${replyClass}">
@@ -468,7 +557,7 @@
 
                 const html = `
                     <div class="${questionClass}">
-                        ${isMyQuestion ? '<div style="position:absolute; top:-10px; left:20px; background:var(--accent-me); color:white; padding:2px 10px; font-size:0.7rem; border-radius:10px;">Anda bertanya</div>' : ''}
+                        ${isMyQuestion ? '<div style="position:absolute; top:-10px; left:20px; background:var(--accent-me); color:white; padding:2px 10px; font-size:0.7rem; border-radius:10px;">Pertanyaan Anda</div>' : ''}
                         
                         <button class="delete-btn" onclick="deleteQuestion(${q.id})"><i class="fas fa-trash-alt"></i></button>
 
@@ -481,18 +570,15 @@
                         </div>
                         <div class="qa-question" style="${isMyQuestion ? 'color:var(--accent-me);' : ''}">${q.question}</div>
 
-                        <!-- Area Balasan (Multi Reply) -->
                         <div class="qa-replies-list">
                             ${repliesHTML}
                         </div>
 
-                        <!-- Form Balas -->
                         <div class="reply-form-input-area" id="replyForm-${q.id}">
                             <input type="text" id="replyText-${q.id}" class="form-input" placeholder="Tulis balasanmu..." style="margin-bottom: 5px;">
                             <button onclick="submitReply(${q.id})" class="btn-card" style="font-size: 0.8rem; padding: 5px 15px; background-color: var(--accent-toner);">Kirim Balasan</button>
                         </div>
-                        
-                        <button onclick="toggleReply(${q.id})" class="btn-reply"><i class="fas fa-reply"></i> Balas (${replyCount})</button>
+                        <button onclick="toggleReply(${q.id})" class="btn-reply"><i class="fas fa-reply"></i> Balas</button>
                     </div>
                 `;
                 feedContainer.innerHTML += html;
@@ -506,80 +592,89 @@
         }
 
         // ==========================================
-        // 7. AKSI POST PERTANYAAN & REPLY
+        // 7. AKSI POST (MENGGUNAKAN DATA LOGIN)
         // ==========================================
         function postQuestion(e, productName) {
             e.preventDefault();
-            const nameId = productName === 'Bawi Toner' ? 'askerName-toner' : 'askerName-serum';
-            const contentId = productName === 'Bawi Toner' ? 'askContent-toner' : 'askContent-serum';
+            
+            if (!currentUser) { alert("Anda harus Login dulu!"); navigateTo('login'); return; }
 
-            const name = document.getElementById(nameId).value;
+            const contentId = productName === 'Bawi Toner' ? 'askContent-toner' : 'askContent-serum';
             const content = document.getElementById(contentId).value;
 
             const newQuestion = {
                 id: Date.now(),
                 timestamp: Date.now(),
-                name: name,
+                name: currentUser.displayName || "User", // Ambil dari Auth
+                userEmail: currentUser.email, // Simpan Email agar bisa di-deteksi milik siapa
                 product: productName,
                 question: content,
-                replies: [], // Array kosong untuk menyimpan banyak balasan
+                replies: [],
                 date: "Baru saja"
             };
 
-            writeToDatabase(newQuestion);
-            
-            document.getElementById(nameId).value = '';
+            database.ref('questions').push(newQuestion);
             document.getElementById(contentId).value = '';
-            
-            alert("Pertanyaan berhasil dikirim ke Server!");
+            alert("Pertanyaan berhasil dikirim!");
         }
 
         function submitReply(qId) {
+            if (!currentUser) { alert("Anda harus Login dulu!"); navigateTo('login'); return; }
+
             const input = document.getElementById(`replyText-${qId}`);
             const replyText = input.value;
 
             if (replyText.trim() !== "") {
-                // Cari key Firebase berdasarkan ID
                 database.ref('questions').orderByChild('id').equalTo(qId).once('value', snapshot => {
                     if (snapshot.exists()) {
                         const key = Object.keys(snapshot.val())[0];
                         const newReply = {
-                            name: currentUser,
+                            name: currentUser.displayName || "User",
+                            userEmail: currentUser.email,
                             text: replyText,
                             date: "Baru saja"
                         };
-                        // Push ke array 'replies'
                         database.ref('questions/' + key + '/replies').push(newReply);
                         
                         input.value = '';
-                        // Tutup form setelah kirim
                         const form = document.getElementById(`replyForm-${qId}`);
                         form.style.display = 'none';
                     }
                 });
-            } else {
-                alert("Mohon isi balasan terlebih dahulu.");
             }
         }
 
         function deleteQuestion(qId) {
-            if (confirm("Hapus pertanyaan ini beserta semua balasannya?")) {
-                deleteFromDatabase(qId);
+            if (!currentUser) return;
+            
+            // Hanya bisa hapus jika itu pertanyaan milik sendiri (berdasarkan email)
+            const qIndex = questions.findIndex(q => q.id === qId);
+            if(qIndex > -1 && questions[qIndex].userEmail !== currentUser.email) {
+                alert("Anda tidak bisa menghapus pertanyaan orang lain!");
+                return;
+            }
+
+            if (confirm("Hapus pertanyaan ini?")) {
+                database.ref('questions').orderByChild('id').equalTo(qId).once('value', snapshot => {
+                    snapshot.forEach(child => {
+                        child.ref.remove();
+                    });
+                });
             }
         }
 
         function toggleReply(qId) {
+            if (!currentUser) { alert("Anda harus Login dulu!"); navigateTo('login'); return; }
+            
             const form = document.getElementById(`replyForm-${qId}`);
             if (form.style.display === 'block') {
                 form.style.display = 'none';
             } else {
                 form.style.display = 'block';
-                // Auto focus
                 document.getElementById(`replyText-${qId}`).focus();
             }
         }
 
-        // Mulai mendengarkan database saat load
         listenToDatabase();
 
     </script>
