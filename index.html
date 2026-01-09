@@ -200,6 +200,75 @@
             nav.desktop-nav { display: none; } 
             .mobile-menu-btn { display: block; }
             #auth-section { display: flex; align-items: center; }
+
+            /* --- HEADER & NAVIGATION --- */
+header { 
+    background-color: var(--white); 
+    padding: 1rem 5%; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05); 
+    position: sticky; 
+    top: 0; 
+    z-index: 1000; /* Dasar layer */
+}
+
+/* Tombol Menu harus selalu di paling atas agar bisa diklik */
+.mobile-menu-btn { 
+    display: none; 
+    font-size: 1.5rem; 
+    color: var(--text-dark); 
+    cursor: pointer; 
+    background: none; 
+    border: none; 
+    position: relative; 
+    z-index: 1003; /* Lebih tinggi dari backdrop agar tidak tertutup */
+}
+
+/* --- BACKDROP (Latar Hitam) --- */
+.backdrop {
+    position: fixed; 
+    inset: 0; 
+    background: rgba(0,0,0,0.5); 
+    z-index: 1001; /* Di atas Header, di bawah Drawer */
+    display: none; 
+    opacity: 0; 
+    transition: opacity 0.3s;
+}
+.backdrop.active { display: block; opacity: 1; }
+
+/* --- SIDE DRAWER (Menu Samping) --- */
+.side-drawer {
+    position: fixed; 
+    top: 0; 
+    right: -300px; /* Sembunyi di kanan */
+    width: 280px; 
+    height: 100vh;
+    background: var(--white);
+    z-index: 1002; /* Di atas Backdrop */
+    padding-top: 80px; 
+    transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+    display: flex; 
+    flex-direction: column;
+}
+.side-drawer.active { right: 0; }
+
+/* Item Menu Berurutan (List) */
+.drawer-menu-list { list-style: none; padding: 0; margin: 0; }
+.drawer-item {
+    display: block;
+    padding: 15px 25px; 
+    font-size: 1.1rem; 
+    font-weight: 600; 
+    color: var(--text-dark);
+    text-decoration: none; 
+    border-bottom: 1px solid #f0f0f0; 
+    transition: var(--transition);
+}
+.drawer-item:hover { background: #f9f9f9; color: var(--accent-toner); padding-left: 30px; }
+.drawer-item i { margin-right: 12px; width: 20px; text-align: center; }
         }
     </style>
 </head>
@@ -237,22 +306,37 @@
         </div>
     </header>
 
-    <!-- Overlay (Background Gelap) -->
+       <!-- Bagian Tombol Menu (Strip 3) di Header -->
+    <button class="mobile-menu-btn" onclick="toggleMenu()">
+        <i class="fas fa-bars" id="menu-icon"></i>
+    </button>
+
+    <!-- Overlay Latar Belakang (Backdrop) -->
     <div class="backdrop" id="backdrop" onclick="toggleMenu()"></div>
 
-    <!-- Side Drawer Menu (Pop Up Dari Samping) -->
+    <!-- Side Drawer Menu (Menu Samping) -->
     <div class="side-drawer" id="sideDrawer">
-        <div class="drawer-close-btn" onclick="toggleMenu()">
+        <!-- Tombol Close (X) -->
+        <div style="position: absolute; top: 1.2rem; right: 5%; cursor: pointer; font-size: 1.5rem;" onclick="toggleMenu()">
             <i class="fas fa-times"></i>
         </div>
         
+        <!-- Daftar Menu Berurutan -->
         <div style="padding: 20px;">
-            <p style="color:#888; font-size:0.8rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:10px;">Menu</p>
-            <a class="drawer-link" onclick="navigateTo('home'); toggleMenu()"><i class="fas fa-home"></i> Home</a>
-            <a class="drawer-link" onclick="navigateTo('toner'); toggleMenu()"><i class="fas fa-spray-can"></i> Toner</a>
-            <a class="drawer-link" onclick="navigateTo('serum'); toggleMenu()"><i class="fas fa-flask"></i> Serum</a>
-            <a class="drawer-link" onclick="navigateTo('toner-forum'); toggleMenu()">Diskusi Toner</a>
-            <a class="drawer-link" onclick="navigateTo('serum-forum'); toggleMenu()">Diskusi Serum</a>
+            <!-- Kategori: Navigasi -->
+            <p style="color:#888; font-size:0.75rem; text-transform:uppercase; font-weight:700; margin-bottom:10px;">Navigasi</p>
+            <ul class="drawer-menu-list">
+                <li><a href="#" class="drawer-item" onclick="navigateTo('home'); toggleMenu()"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="#" class="drawer-item" onclick="navigateTo('toner'); toggleMenu()"><i class="fas fa-spray-can"></i> Toner</a></li>
+                <li><a href="#" class="drawer-item" onclick="navigateTo('serum'); toggleMenu()"><i class="fas fa-flask"></i> Serum</a></li>
+            </ul>
+
+            <!-- Kategori: Diskusi -->
+            <p style="color:#888; font-size:0.75rem; text-transform:uppercase; font-weight:700; margin:20px 0 10px;">Diskusi</p>
+            <ul class="drawer-menu-list">
+                <li><a href="#" class="drawer-item" onclick="navigateTo('toner-forum'); toggleMenu()">Diskusi Toner</a></li>
+                <li><a href="#" class="drawer-item" onclick="navigateTo('serum-forum'); toggleMenu()">Diskusi Serum</a></li>
+            </ul>
         </div>
     </div>
 
@@ -821,3 +905,4 @@
     </script>
 </body>
 </html>
+
