@@ -144,12 +144,30 @@
         .card { background: var(--white); border-radius: 20px; overflow: hidden; box-shadow: var(--shadow); transition: var(--transition); cursor: pointer; border: 1px solid transparent; }
         .card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.12); }
 
-        .card-image { height: 250px; overflow: hidden; position: relative; }
-        .card-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+               /* ... kode di atas ... */
+
+        /* --- UPDATE CARD IMAGE --- */
+        .card-image { 
+            width: 100%; 
+            max-width: 400px; /* Max lebar 400px biar gak melebar */
+            aspect-ratio: 1 / 1; /* Ini yang bikin jadi KOTAK (Square) 1:1 */
+            margin: 0 auto; /* Center gambar biar rapi */
+            overflow: hidden; /* Ini yang potong gambar yang keluar border */
+            position: relative; 
+            border-radius: 20px 20px 0 0; /* Sudut atas melengkung */
+        }
+        
+        .card-image img { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; /* INI PENTING! Ini yang bikin gambar di-crop (fit) menutupi kotak */
+            transition: transform 0.5s ease; 
+            display: block;
+        }
+
         .card:hover .card-image img { transform: scale(1.05); }
-        .card-content { padding: 2rem; text-align: center; }
-        .card-icon { font-size: 2rem; margin-bottom: 1rem; display: block; }
-        .btn-card { display: inline-block; margin-top: 1rem; padding: 10px 25px; border-radius: 50px; color: white; font-weight: 600; text-decoration: none; transition: var(--transition); }
+        
+        /* ... kode di bawah ... */
         
         /* 3. Lab Section */
         .lab-section { padding: 4rem 5%; background: var(--white); margin-bottom: 4rem; }
@@ -964,4 +982,5 @@
     </script>
 </body>
 </html>
+
 
