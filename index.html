@@ -13,7 +13,6 @@
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
-    <!-- Firebase Auth SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
 
     <style>
@@ -45,53 +44,19 @@
         header { background-color: var(--white); padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 1000; }
         .logo { font-size: 1.5rem; font-weight: 700; color: var(--text-dark); display: flex; align-items: center; gap: 10px; cursor: pointer; }
         
-        /* Right Side Container (Holds Nav + Auth + Mobile Button) */
-        .header-right { display: flex; align-items: center; gap: 1rem; }
+        .header-right { display: flex; align-items: center; gap: 1.2rem; }
         
         /* Desktop Nav */
         nav.desktop-nav { display: flex; gap:1.2rem; align-items: center; }
 
         /* Mobile Menu Button (Strip 3) */
         .mobile-menu-btn { 
-            display: none; font-size: 1.5rem; color: var(--text-dark); cursor: pointer; background: none; border: none;
+            display: none; font-size: 1.5rem; color: var(--text-dark); cursor: pointer; background: none; border: none; z-index: 1002;
         }
-
-        /* Mobile Dropdown Menu (Simple Dropdown, not Overlay) */
-        <!-- Mobile Dropdown Menu -->
-<div class="mobile-dropdown hidden" id="mobileDropdown">
-    
-    <!-- CONTOH: Link Home (Sudah ada) -->
-    <a onclick="navigateTo('home'); toggleMenu()"><i class="fas fa-home"></i> Home</a>
-    
-    <!-- CONTOH: Link Toner (Sudah ada) -->
-    <a onclick="navigateTo('toner'); toggleMenu()"><i class="fas fa-spray-can"></i> Toner</a>
-    
-    <!-- CONTOH: Link Serum (Sudah ada) -->
-    <a onclick="navigateTo('serum'); toggleMenu()"><i class="fas fa-flask"></i> Serum</a>
-    
-    <!-- DISINI: Tambahkan Menu Baru yang Anda Maksud -->
-    <!-- Contoh format: <a onclick="navigateTo('nama-view'); toggleMenu()">Nama Menu</a> -->
-    
-    <a onclick="navigateTo('toner-forum'); toggleMenu()">Diskusi Toner</a>
-    <a onclick="navigateTo('serum-forum'); toggleMenu()">Diskusi Serum</a>
-
-</div>
-        .mobile-dropdown a {
-            padding: 12px 20px;
-            text-decoration: none;
-            color: var(--text-dark);
-            font-weight: 600;
-            border-bottom: 1px solid #f0f0f0;
-            transition: var(--transition);
-        }
-        .mobile-dropdown a:last-child { border-bottom: none; }
-        .mobile-dropdown a:hover { background-color: #f9f9f9; color: var(--accent-toner); }
 
         /* Link Styles */
         .nav-link { text-decoration: none; color: var(--text-light); font-weight: 600; cursor: pointer; transition: var(--transition); font-size: 0.9rem; }
         .nav-link:hover { color: var(--text-dark); }
-        .nav-link.toner-link:hover { color: var(--accent-toner); }
-        .nav-link.serum-link:hover { color: var(--accent-serum); }
 
         /* BUTTONS AUTH */
         .auth-btn {
@@ -105,6 +70,37 @@
         .logout-btn { color: #ff4d4d; cursor: pointer; border: none; background: none; font-size: 0.9rem; }
         .logout-btn:hover { text-decoration: underline; }
 
+        /* --- SIDE DRAWER MENU (POP UP DARI SAMPING) --- */
+        .backdrop {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.5); 
+            z-index: 1001; display: none; opacity: 0; transition: opacity 0.3s;
+        }
+        .backdrop.active { display: block; opacity: 1; }
+
+        .side-drawer {
+            position: fixed; top: 0; right: -300px; /* Sembunyi di kanan */
+            width: 280px; height: 100vh;
+            background: var(--white);
+            z-index: 1002;
+            padding-top: 80px; /* Ruang di atas untuk tombol close */
+            transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+            display: flex; flex-direction: column;
+        }
+        .side-drawer.active { right: 0; } /* Muncul */
+
+        .drawer-close-btn {
+            position: absolute; top: 1.2rem; right: 5%; 
+            font-size: 1.8rem; color: var(--text-dark); cursor: pointer;
+        }
+
+        .drawer-link {
+            padding: 15px 25px; font-size: 1.1rem; font-weight: 600; color: var(--text-dark);
+            text-decoration: none; border-bottom: 1px solid #f0f0f0; transition: var(--transition);
+        }
+        .drawer-link:hover { background: #f9f9f9; color: var(--accent-toner); padding-left: 30px; }
+        .drawer-link i { margin-right: 10px; width: 20px; }
+
         /* --- CARDS & SELECTION --- */
         .hero { text-align: center; padding: 3rem 1rem 1rem; max-width: 800px; margin: 0 auto; }
         .hero h1 { font-size: 2.5rem; margin-bottom: 1rem; }
@@ -113,21 +109,15 @@
         .selection-container { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; padding: 2rem 5%; max-width: 1200px; margin: 0 auto 4rem; flex-grow: 1; }
         .card { background: var(--white); border-radius: 20px; overflow: hidden; box-shadow: var(--shadow); transition: var(--transition); cursor: pointer; border: 1px solid transparent; }
         .card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.12); }
-        .toner-card:hover { border-color: var(--accent-toner); }
-        .serum-card:hover { border-color: var(--accent-serum); }
 
         .card-image { height: 250px; overflow: hidden; position: relative; }
         .card-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
         .card:hover .card-image img { transform: scale(1.05); }
         .card-content { padding: 2rem; text-align: center; }
         .card-icon { font-size: 2rem; margin-bottom: 1rem; display: block; }
-        .toner-card .card-icon { color: var(--accent-toner); }
-        .serum-card .card-icon { color: var(--accent-serum); }
         .btn-card { display: inline-block; margin-top: 1rem; padding: 10px 25px; border-radius: 50px; color: white; font-weight: 600; text-decoration: none; transition: var(--transition); }
-        .toner-card .btn-card { background-color: var(--accent-toner); }
-        .serum-card .btn-card { background-color: var(--accent-serum); }
-
-        /* --- AUTH FORMS (LOGIN & REGISTER) --- */
+        
+        /* --- AUTH FORMS --- */
         .auth-container {
             max-width: 400px; margin: 4rem auto; padding: 2rem;
             background: var(--white); border-radius: 20px; box-shadow: var(--shadow); text-align: center;
@@ -140,10 +130,8 @@
         
         .primary-btn { width: 100%; padding: 12px; background: var(--accent-toner); color: white; border: none; border-radius: 50px; font-weight: 700; cursor: pointer; transition: var(--transition); font-size: 1rem; }
         .primary-btn:hover { background: var(--accent-toner-dark); transform: translateY(-2px); }
-
         .auth-switch { margin-top: 1rem; font-size: 0.9rem; }
         .auth-switch a { color: var(--accent-toner); font-weight: 600; text-decoration: none; cursor: pointer; }
-        .auth-switch a:hover { text-decoration: underline; }
 
         /* --- PRODUCT & FORUM --- */
         .product-page { padding: 2rem 5%; max-width: 1200px; margin: 0 auto 4rem; flex-grow: 1; }
@@ -151,21 +139,13 @@
         .detail-image { flex: 1 1 400px; height: 500px; position: relative; }
         .detail-image img { width: 100%; height: 100%; object-fit: cover; }
         .detail-content { flex: 1 1 400px; padding: 3rem; display: flex; flex-direction: column; justify-content: center; }
-        
         .back-btn { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 1.5rem; color: var(--text-light); text-decoration: none; font-weight: 600; cursor: pointer; transition: var(--transition); }
         .back-btn:hover { color: var(--text-dark); transform: translateX(-5px); }
-
         .detail-content h2 { font-size: 2.5rem; margin-bottom: 0.5rem; }
         .detail-price { font-size: 1.5rem; font-weight: 700; margin-bottom: 2rem; display: block; }
         .detail-desc { color: var(--text-light); margin-bottom: 2rem; line-height: 1.8; }
-        
         .feature-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-bottom: 2.5rem; }
         .feature-item { display: flex; align-items: center; gap: 10px; font-weight: 500; }
-        #page-toner .detail-price { color: var(--accent-toner); }
-        #page-toner .action-btn { background-color: var(--accent-toner); }
-        #page-serum .detail-price { color: var(--accent-serum); }
-        #page-serum .action-btn { background-color: var(--accent-serum); }
-
         .action-btn { width: 100%; padding: 15px; border: none; border-radius: 50px; color: rgb(0, 0, 0); font-size: 1.1rem; font-weight: 700; cursor: pointer; transition: var(--transition); text-align: center; display: block; }
         .action-btn:hover { opacity: 0.9; transform: scale(1.02); }
 
@@ -173,13 +153,10 @@
         .qa-feed-header { margin-bottom: 1.5rem; padding-bottom:1rem; border-bottom: 2px solid #eee; }
         .forum-wrapper { display: grid; grid-template-columns: 1fr 1.5fr; gap: 2rem; align-items: start; }
         .form-card { background: var(--white); padding: 2rem; border-radius: 20px; box-shadow: var(--shadow); position: sticky; top: 100px; }
-        
         .form-group { margin-bottom: 1.2rem; }
         .form-label { display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--text-dark); }
         .form-input, .form-textarea, .form-select { width: 100%; padding: 12px 15px; border: 1px solid #ddd; border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: 0.95rem; transition: var(--transition); }
         .form-input:focus, .form-textarea:focus { outline: none; border-color: #FF6B6B; box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.1); }
-        .form-select:disabled { background-color: #f9f9f9; color: #888; cursor: not-allowed; }
-
         .submit-btn { width: 100%; padding: 15px; background: var(--bright-gradient); color: white; border: none; border-radius: 50px; font-size: 1.1rem; font-weight: 700; cursor: pointer; transition: var(--transition); box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4); }
         .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255, 107, 107, 0.6); }
 
@@ -187,40 +164,26 @@
         .qa-card { background: var(--white); border-radius: 15px; padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 4px 10px rgba(0,0,0,0.05); transition: var(--transition); position: relative; border: 1px solid transparent; }
         .qa-card:hover { box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
         .qa-card.my-question { border: 2px solid var(--accent-me); background-color: #f9fff9; }
-
         .delete-btn { position: absolute; top: 15px; right: 15px; background: none; border: none; color: #ccc; cursor: pointer; font-size: 1rem; transition: var(--transition); padding: 5px; }
         .delete-btn:hover { color: #ff4d4d; transform: scale(1.1); }
-
         .qa-meta { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; font-size: 0.9rem; color: var(--text-light); }
         .qa-avatar { width: 35px; height: 35px; background: #eee; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--text-light); }
         .qa-name { font-weight: 700; color: var(--text-dark); }
         .qa-question { font-weight: 500; font-size: 1.1rem; color: var(--text-dark); margin-bottom: 1rem; }
-
-        /* MULTI REPLIES */
         .qa-replies-list { margin-top: 1rem; border-top: 1px solid #eee; padding-top: 1rem; }
         .reply-item { background: #fafafa; padding: 10px 15px; border-radius: 10px; margin-bottom: 0.8rem; border-left: 3px solid #ddd; font-size: 0.95rem; }
         .reply-item.my-reply { border-left-color: var(--accent-me); background: #f0fff4; }
         .reply-header { font-size: 0.8rem; color: #888; margin-bottom: 4px; display: flex; justify-content: space-between; }
         .reply-name { font-weight: 700; color: var(--text-dark); }
-
         .btn-reply { background: none; border: 1px solid #ddd; padding: 5px 15px; border-radius: 20px; cursor: pointer; font-size: 0.85rem; transition: var(--transition); margin-left: 45px; }
         .btn-reply:hover { background: #eee; color: var(--text-dark); }
-
         .reply-form-input-area { margin-top: 1rem; margin-left: 45px; display: none; }
         .reply-form-input-area.active { display: block; animation: fadeIn 0.3s; }
 
         /* ADMIN STYLES */
         .badge-admin {
-            background-color: var(--admin-color);
-            color: white;
-            font-size: 0.65rem;
-            font-weight: 800;
-            padding: 2px 6px;
-            border-radius: 4px;
-            margin-left: 5px;
-            vertical-align: middle;
-            letter-spacing: 0.5px;
-            box-shadow: 0 2px 5px rgba(255, 152, 0, 0.3);
+            background-color: var(--admin-color); color: white; font-size: 0.65rem; font-weight: 800;
+            padding: 2px 6px; border-radius: 4px; margin-left: 5px; vertical-align: middle;
         }
 
         footer { background-color: var(--white); padding: 2rem; text-align: center; border-top: 1px solid #eee; margin-top: auto; }
@@ -234,13 +197,8 @@
             .detail-content { padding: 2rem; } 
             .hero h1 { font-size: 2rem; } 
             
-            /* Hide Desktop Nav Links */
             nav.desktop-nav { display: none; } 
-            
-            /* Show Mobile Menu Button */
             .mobile-menu-btn { display: block; }
-            
-            /* Make sure Auth Section is visible (Login/Profile) */
             #auth-section { display: flex; align-items: center; }
         }
     </style>
@@ -253,42 +211,50 @@
             <i class="fas fa-leaf"></i> GlowSkin
         </div>
         
-        <!-- Right Side Container -->
         <div class="header-right">
-            
-            <!-- Desktop Navigation (Links) -->
+            <!-- Desktop Nav -->
             <nav class="desktop-nav">
-                <a class="nav-link toner-link" onclick="navigateTo('toner')">Toner</a>
-                <a class="nav-link serum-link" onclick="navigateTo('serum')">Serum</a>
-                <a class="nav-link toner-link" onclick="navigateTo('toner-forum')">Diskusi Toner</a>
-                <a class="nav-link serum-link" onclick="navigateTo('serum-forum')">Diskusi Serum</a>
+                <a class="nav-link" onclick="navigateTo('toner')">Toner</a>
+                <a class="nav-link" onclick="navigateTo('serum')">Serum</a>
+                <a class="nav-link" onclick="navigateTo('toner-forum')">Diskusi Toner</a>
+                <a class="nav-link" onclick="navigateTo('serum-forum')">Diskusi Serum</a>
             </nav>
 
-            <!-- Auth Section (Login/Profile) - Visible on Mobile and Desktop -->
+            <!-- Auth Section -->
             <div id="auth-section">
                 <button id="btn-login-nav" class="auth-btn" onclick="navigateTo('login')">Login</button>
                 <div id="user-profile-nav" class="user-profile hidden">
                     <span id="display-name">User</span>
                     <span id="admin-badge-nav" class="badge-admin hidden">ADMIN</span>
-                    <span class="logout-btn" onclick="handleLogout()"><i class="fas fa-sign-out-alt"></i> Logout</span>
+                    <span class="logout-btn" onclick="handleLogout()"><i class="fas fa-sign-out-alt"></i></span>
                 </div>
             </div>
 
-            <!-- Mobile Menu Button (Hamburger) -->
+            <!-- Mobile Menu Button (Strip 3) -->
             <button class="mobile-menu-btn" onclick="toggleMenu()">
-                <i class="fas fa-bars"></i>
+                <i class="fas fa-bars" id="menu-icon"></i>
             </button>
         </div>
-
-        <!-- Mobile Dropdown Menu (Simple List, Not Overlay) -->
-        <div class="mobile-dropdown hidden" id="mobileDropdown">
-            <a onclick="navigateTo('home'); toggleMenu()"><i class="fas fa-home"></i> Home</a>
-            <a onclick="navigateTo('toner'); toggleMenu()"><i class="fas fa-spray-can"></i> Toner</a>
-            <a onclick="navigateTo('serum'); toggleMenu()"><i class="fas fa-flask"></i> Serum</a>
-            <a onclick="navigateTo('toner-forum'); toggleMenu()">Diskusi Toner</a>
-            <a onclick="navigateTo('serum-forum'); toggleMenu()">Diskusi Serum</a>
-        </div>
     </header>
+
+    <!-- Overlay (Background Gelap) -->
+    <div class="backdrop" id="backdrop" onclick="toggleMenu()"></div>
+
+    <!-- Side Drawer Menu (Pop Up Dari Samping) -->
+    <div class="side-drawer" id="sideDrawer">
+        <div class="drawer-close-btn" onclick="toggleMenu()">
+            <i class="fas fa-times"></i>
+        </div>
+        
+        <div style="padding: 20px;">
+            <p style="color:#888; font-size:0.8rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:10px;">Menu</p>
+            <a class="drawer-link" onclick="navigateTo('home'); toggleMenu()"><i class="fas fa-home"></i> Home</a>
+            <a class="drawer-link" onclick="navigateTo('toner'); toggleMenu()"><i class="fas fa-spray-can"></i> Toner</a>
+            <a class="drawer-link" onclick="navigateTo('serum'); toggleMenu()"><i class="fas fa-flask"></i> Serum</a>
+            <a class="drawer-link" onclick="navigateTo('toner-forum'); toggleMenu()">Diskusi Toner</a>
+            <a class="drawer-link" onclick="navigateTo('serum-forum'); toggleMenu()">Diskusi Serum</a>
+        </div>
+    </div>
 
     <!-- VIEW1: HOME -->
     <main id="view-home" class="fade-in">
@@ -514,25 +480,21 @@
         }
 
         function updateAuthUI(user) {
-            // Auth Elements (Visible on both Desktop & Mobile)
             const loginBtnNav = document.getElementById('btn-login-nav');
             const profileDivNav = document.getElementById('user-profile-nav');
             const displayNameNav = document.getElementById('display-name');
             const adminBadgeNav = document.getElementById('admin-badge-nav');
             
-            // Form Inputs
             const nameInputToner = document.getElementById('askerName-toner');
             const nameInputSerum = document.getElementById('askerName-serum');
 
             if (user) {
-                // SUDAH LOGIN
                 loginBtnNav.classList.add('hidden');
                 profileDivNav.classList.remove('hidden');
                 
                 const nameToShow = user.displayName || user.email.split('@')[0];
                 displayNameNav.innerText = nameToShow;
 
-                // Admin Logic
                 if(isAdmin()) {
                     adminBadgeNav.classList.remove('hidden');
                     if(nameInputToner && nameInputToner.value === "") nameInputToner.value = "Admin GlowSkin";
@@ -544,7 +506,6 @@
                 }
 
             } else {
-                // BELUM LOGIN
                 loginBtnNav.classList.remove('hidden');
                 profileDivNav.classList.add('hidden');
                 adminBadgeNav.classList.add('hidden');
@@ -554,10 +515,23 @@
             }
         }
 
-        // Toggle Mobile Menu (Dropdown)
+        // Toggle Side Drawer Menu
         function toggleMenu() {
-            const dropdown = document.getElementById('mobileDropdown');
-            dropdown.classList.toggle('hidden');
+            const drawer = document.getElementById('sideDrawer');
+            const backdrop = document.getElementById('backdrop');
+            const icon = document.getElementById('menu-icon');
+            
+            drawer.classList.toggle('active');
+            backdrop.classList.toggle('active');
+
+            // Ubah icon Strip 3 jadi Silang (X)
+            if (drawer.classList.contains('active')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
         }
 
         // ==========================================
@@ -631,11 +605,9 @@
         // 5. NAVIGASI
         // ==========================================
         function navigateTo(viewName) {
-            // Close dropdown when navigating
-            const dropdown = document.getElementById('mobileDropdown');
-            if(!dropdown.classList.contains('hidden')) {
-                dropdown.classList.add('hidden');
-            }
+            // Tutup menu jika sedang terbuka
+            const drawer = document.getElementById('sideDrawer');
+            if(drawer.classList.contains('active')) toggleMenu();
 
             const views = ['view-home', 'view-toner', 'view-serum', 'view-toner-forum', 'view-serum-forum', 'view-login', 'view-register'];
             views.forEach(id => document.getElementById(id).classList.add('hidden'));
@@ -849,4 +821,3 @@
     </script>
 </body>
 </html>
-
