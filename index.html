@@ -471,26 +471,81 @@
             padding: 2px 6px; border-radius: 4px; margin-left: 5px; vertical-align: middle;
         }
 
-        /* FOOTER UPDATED */
+              /* --- FOOTER UPDATED (BUTTONS STYLE) --- */
         footer { 
             background-color: var(--white); 
-            padding: 2.5rem 2rem; 
+            padding: 3rem 2rem; /* Padding agak gedean biar lega */
             text-align: center; 
             border-top: 1px solid #eee; 
             margin-top: auto; 
         }
+        
         .footer-content {
             display: flex; 
             flex-direction: column; 
             align-items: center; 
-            gap: 1rem;
+            gap: 2rem; /* Jarak antar teks dan tombol */
         }
-        .social-links { display: flex; gap: 1.5rem; }
-        .social-links a {
-            color: var(--text-light); font-size: 1.5rem; transition: var(--transition);
-        }
-        .social-links a:hover { color: var(--accent-toner); transform: scale(1.2); }
 
+        /* Styling Teks Copyright */
+        .footer-copyright {
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--text-light);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* Container Tombol */
+        .social-links { 
+            display: flex; 
+            gap: 1.5rem; 
+            flex-wrap: wrap; /* Biar turun ke bawah kalau HP */
+            justify-content: center; 
+        }
+
+        /* Style Tombol Keren (Pill Shape) */
+        .footer-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px; /* Jarak ikon sama teks */
+            padding: 12px 25px;
+            border-radius: 50px;
+            color: white;
+            font-weight: 700;
+            text-decoration: none;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-size: 0.95rem;
+        }
+
+        /* Tombol Email (Ungu Toner) */
+        .btn-email {
+            background: var(--accent-toner);
+            border: 2px solid var(--accent-toner);
+        }
+        .btn-email:hover {
+            background: var(--accent-toner-dark);
+            transform: translateY(-3px); /* Efek naik dikit */
+            box-shadow: 0 10px 25px rgba(158, 143, 178, 0.3);
+        }
+
+        /* Tombol Instagram (Pink Serum) */
+        .btn-ig {
+            background: var(--accent-serum);
+            border: 2px solid var(--accent-serum);
+        }
+        .btn-ig:hover {
+            background: var(--accent-serum-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(230, 164, 164, 0.3);
+        }
+
+        /* Icon di dalam tombol */
+        .footer-btn i {
+            font-size: 1.1rem;
+        }
+        
         /* --- TEAM SECTION (TIM KAMI) --- */
         .team-section {
             background: var(--white);
@@ -1713,13 +1768,25 @@
     </section>
 
     <!-- FOOTER (UPDATED) -->
+       <!-- FOOTER (UPDATED BUTTONS) -->
     <footer>
         <div class="footer-content">
-            <p>&copy; Sejak 2025 GlowSkin Indonesia</p>
-            <!-- Social Links -->
+            <!-- Teks Copyright -->
+            <p class="footer-copyright">Sejak 2025</p>
+
+            <!-- Tombol Social Links -->
             <div class="social-links">
-                <a href="mailto:contact@glowskin.com" title="Gmail"><i class="fas fa-envelope"></i></a>
-                <a href="https://instagram.com" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+                <!-- Tombol Email (Warna Ungu) -->
+                <a href="mailto:contact@glowskin.com" class="footer-btn btn-email">
+                    <i class="fas fa-envelope"></i>
+                    <span>Email</span>
+                </a>
+
+                <!-- Tombol Instagram (Warna Pink) -->
+                <a href="https://instagram.com" target="_blank" class="footer-btn btn-ig">
+                    <i class="fab fa-instagram"></i>
+                    <span>Instagram</span>
+                </a>
             </div>
         </div>
     </footer>
@@ -2136,6 +2203,7 @@
     </script>
 </body>
 </html>
+
 
 
 
