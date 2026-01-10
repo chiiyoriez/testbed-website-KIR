@@ -313,26 +313,36 @@
         .auth-switch { margin-top: 1rem; font-size: 0.9rem; }
         .auth-switch a { color: var(--accent-toner); font-weight: 600; text-decoration: none; cursor: pointer; }
 
-               /* --- PRODUCT & FORUM (UPDATED RASIO 513x573) --- */
+                /* --- PRODUCT & FORUM (FIXED RASIO 513x411) --- */
         .product-page { padding: 2rem 5%; max-width: 1200px; margin: 0 auto 4rem; flex-grow: 1; }
         .detail-container { display: flex; flex-wrap: wrap; background: var(--white); border-radius: 30px; overflow: hidden; box-shadow: var(--shadow); }
         
-        /* Detail Image: Rasio 513x573 */
+        /* Detail Image - PERBAIKAN RASIO KE 80.12% (411/513) */
         .detail-image { 
             flex: 1 1 400px; 
-            /* Hitung: 573 / 513 = 1.11 = 112% */
-            padding-bottom: 112%; 
-            height: 411; 
+            height: 0; /* Wajib 0 supaya padding bekerja */
+            padding-bottom: 80.12%; /* 411 dibagi 513 = 0.8012 (80.12%) */
             position: relative; 
-            /* Tambahkan min-height supaya minimal tinggi rapi */
-            min-height: 400px; 
+            background: #fff;
+            padding: 10px;
+            /* Hapus min-height jika ada di kode lama biar gak konflik */
+            min-height: 400px; /* Supaya minimal tinggi rapi */
         } 
+
+        /* Pseudo-element untuk lock rasio */
+        .detail-image::before {
+            content: "";
+            display: block;
+            padding-top: 80.12%;
+            width: 100%;
+        }
+        
         .detail-image img { 
             position: absolute; 
             top: 0; left: 0; 
             width: 100%; 
             height: 100%; 
-            object-fit: cover; 
+            object-fit: cover; /* Wajib cover */
         }
         
         .detail-content { flex: 1 1 400px; padding: 3rem; display: flex; flex-direction: column; justify-content: center; }
@@ -345,6 +355,7 @@
         .feature-item { display: flex; align-items: center; gap: 10px; font-weight: 500; }
         .action-btn { width: 100%; padding: 15px; border: none; border-radius: 50px; color: rgb(0, 0, 0); font-size: 1.1rem; font-weight: 700; cursor: pointer; transition: var(--transition); text-align: center; display: block; }
         .action-btn:hover { opacity: 0.9; transform: scale(1.02); }
+        
                 /* --- LAB DETAIL SPECIFIC STYLES --- */
         
         /* Grid Foto - DIUBAH AGAR AUTO HEIGHT (TIDAK CROP) */
@@ -1454,6 +1465,7 @@
     </script>
 </body>
 </html>
+
 
 
 
