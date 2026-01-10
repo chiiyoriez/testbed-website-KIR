@@ -140,7 +140,7 @@
         }
         .btn-scroll:hover { background: var(--accent-toner); transform: scale(1.05); }
 
-        /* 2. SELECTION SECTION (Tengah) */
+               /* 2. SELECTION SECTION (Tengah) */
         .section-title { text-align: center; font-size: 2rem; margin: 4rem 0 2rem; color: var(--text-dark); }
         .selection-container { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; padding: 0 5%; max-width: 1200px; margin: 0 auto 4rem; flex-grow: 1; }
         
@@ -154,24 +154,28 @@
             cursor: pointer; 
             border: 1px solid transparent; 
             position: relative;
-            height: 400px; 
+            height: 400px; /* Tinggi kartu fix biar rapi */
         }
         
         .card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.15); }
         .toner-card:hover { border-color: var(--accent-toner); }
         .serum-card:hover { border-color: var(--accent-serum); }
 
-        /* Gambar memenuhi seluruh kartu */
+        /* --- UPDATE UKURAN GAMBAR (1022x818) --- */
         .card-image { 
-            height: 100%; 
-            width: 100%; 
-            overflow: hidden; 
+            width: 100%;
+            /* Hitung Aspek Rasio: 818 / 1022 = 0.80 (80%) */
+            padding-bottom: 80%; 
+            height: 0; /* Ini wajib dijadiin 0 supaya padding menentukan tingginya */
             position: relative; 
+            overflow: hidden;
         } 
         .card-image img { 
+            position: absolute;
+            top: 0; left: 0; 
             width: 100%; 
             height: 100%; 
-            object-fit: cover; 
+            object-fit: cover; /* Ini biar gak gepeng tapi full */
             transition: transform 0.5s ease; 
         } 
         /* Zoom effect saat hover */
@@ -187,7 +191,6 @@
             justify-content: center; 
             align-items: center; 
             text-align: center; 
-            /* Gradasi Gelap di bawah agar teks putih terbaca */
             background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.2) 40%, rgba(0,0,0,0) 100%);
             z-index: 2;
         }
@@ -570,12 +573,15 @@
             <button class="btn-scroll" onclick="scrollToProducts()">Pilih Perawatan <i class="fas fa-chevron-down"></i></button>
         </section>
 
-        <!-- 2. SELECTION SECTION (Tengah) -->
+               <!-- 2. SELECTION SECTION (Tengah) - UPDATE GAMBAR -->
         <section id="products-section">
             <div class="selection-container">
                 <!-- Card Toner -->
                 <article class="card toner-card" onclick="navigateTo('toner')">
-                    <div class="card-image"><img src="KIR/bawi%20toner/logo.jpeg" alt="Bawi Toner"></div>
+                    <!-- GANTI src="..." MENGGUNAKAN FOTO UKURAN 1022x818 -->
+                    <div class="card-image">
+                        <img src="LINK_FOTO_TONER_1022x818.jpg" alt="Bawi Toner">
+                    </div>
                     <div class="card-content">
                         <i class="fas fa-spray-can card-icon"></i>
                         <h2>BAWI Toner</h2>
@@ -586,7 +592,10 @@
                 
                 <!-- Card Serum -->
                 <article class="card serum-card" onclick="navigateTo('serum')">
-                    <div class="card-image"><img src="https://raw.githubusercontent.com/chiiyoriez/testbed-website-KIR/refs/heads/main/KIR/tabela%20serum/download%20(1).png" alt="Tabela Serum"></div>
+                    <!-- GANTI src="..." MENGGUNAKAN FOTO UKURAN 1022x818 -->
+                    <div class="card-image">
+                        <img src="LINK_FOTO_SERUM_1022x818.jpg" alt="Tabela Serum">
+                    </div>
                     <div class="card-content">
                         <i class="fas fa-flask card-icon"></i>
                         <h2>TABELA Serum</h2>
@@ -1435,6 +1444,7 @@
     </script>
 </body>
 </html>
+
 
 
 
