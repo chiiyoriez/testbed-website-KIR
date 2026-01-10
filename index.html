@@ -50,7 +50,7 @@
             box-shadow: 0 2px 10px rgba(0,0,0,0.05); 
             position: sticky; 
             top: 0; 
-            z-index: 1000; /* Dasar layer */
+            z-index: 1000;
         }
 
         .logo { font-size: 1.5rem; font-weight: 700; color: var(--text-dark); display: flex; align-items: center; gap: 10px; cursor: pointer; }
@@ -107,11 +107,7 @@
         }
         .side-drawer.active { right: 0; }
 
-        .drawer-close-btn {
-            position: absolute; top: 1.2rem; right: 5%; 
-            font-size: 1.5rem; color: var(--text-dark); cursor: pointer;
-        }
-
+        /* Item Menu Berurutan (List) */
         .drawer-menu-list { list-style: none; padding: 0; margin: 0; }
         .drawer-item {
             display: block;
@@ -123,10 +119,10 @@
 
         /* --- HOME PAGE SECTIONS --- */
         
-        /* 1. Intro Section */
+        /* 1. INTRO SECTION (DIPERKECIL) */
         .hero-intro {
             background: linear-gradient(135deg, #fdfbf7 0%, #e6e6fa 100%);
-            padding: 5rem 1rem 3rem;
+            padding: 3.5rem 1rem 1rem; /* Padding dikurangi agar lebih pendek */
             text-align: center;
         }
         .hero-intro h1 { font-size: 3rem; font-weight: 800; color: var(--text-dark); margin-bottom: 1rem; }
@@ -135,23 +131,82 @@
         .btn-scroll {
             padding: 12px 30px; background: var(--text-dark); color: white; border: none; border-radius: 50px;
             font-size: 1rem; font-weight: 600; cursor: pointer; transition: var(--transition);
+            display: inline-block;
         }
         .btn-scroll:hover { background: var(--accent-toner); transform: scale(1.05); }
 
-        /* 2. Selection Section */
+        /* 2. SELECTION SECTION (CARD OVERLAY) */
         .section-title { text-align: center; font-size: 2rem; margin: 3rem 0 2rem; color: var(--text-dark); }
-        .selection-container { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; padding: 0 5%; max-width: 1200px; margin: 0 auto 4rem; }
-        .card { background: var(--white); border-radius: 20px; overflow: hidden; box-shadow: var(--shadow); transition: var(--transition); cursor: pointer; border: 1px solid transparent; }
-        .card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.12); }
-
-        .card-image { height: 150px; overflow: hidden; position: relative; }
-        .card-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
-        .card:hover .card-image img { transform: scale(1.05); }
-        .card-content { padding: 2rem; text-align: center; }
-        .card-icon { font-size: 2rem; margin-bottom: 1rem; display: block; }
-        .btn-card { display: inline-block; margin-top: 1rem; padding: 10px 25px; border-radius: 50px; color: white; font-weight: 600; text-decoration: none; transition: var(--transition); }
+        .selection-container { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; padding: 0 5%; max-width: 1200px; margin: 0 auto 4rem; flex-grow: 1; }
         
-        /* 3. Lab Section */
+        /* Kartu Produk: Image Background dengan Teks Overlay */
+        .card { 
+            background: var(--white); 
+            border-radius: 20px; 
+            overflow: hidden; 
+            box-shadow: var(--shadow); 
+            transition: var(--transition); 
+            cursor: pointer; 
+            border: 1px solid transparent; 
+            position: relative; /* Penting untuk positioning overlay */
+            height: 400px; /* Tinggi kartu diperbesar agar gambar lebih luas */
+        }
+        
+        .card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.15); }
+        .toner-card:hover { border-color: var(--accent-toner); }
+        .serum-card:hover { border-color: var(--accent-serum); }
+
+        /* Gambar memenuhi seluruh kartu */
+        .card-image { 
+            height: 100%; 
+            width: 100%; 
+            overflow: hidden; 
+            position: relative; 
+        } 
+        .card-image img { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; 
+            transition: transform 0.5s ease; 
+        } 
+        /* Zoom effect saat hover */
+        .card:hover .card-image img { transform: scale(1.1); } 
+        
+        /* Isi Teks di tengah (Overlay) */
+        .card-content { 
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            padding: 2rem; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
+            text-align: center; 
+            /* Gradasi Gelap di bawah agar teks putih terbaca */
+            background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.1) 40%, rgba(0,0,0,0) 100%);
+            z-index: 2;
+        }
+
+        /* Teks Putih untuk Kontras Gambar */
+        .card h2 { font-size: 2rem; margin-bottom: 0.5rem; color: var(--white); text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+        .card p { font-size: 1rem; color: #f0f0f0; margin-bottom: 1.5rem; }
+        .card-icon { font-size: 2.5rem; margin-bottom: 1rem; display: block; color: var(--white); text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
+        
+        .btn-card { 
+            display: inline-block; 
+            padding: 10px 25px; 
+            border-radius: 50px; 
+            color: white; 
+            font-weight: 600; 
+            text-decoration: none; 
+            transition: var(--transition); 
+            background-color: var(--accent-toner);
+            z-index: 10;
+        }
+        .toner-card .btn-card { background-color: var(--accent-toner); }
+        .serum-card .btn-card { background-color: var(--accent-serum); }
+
+        /* 3. LAB & 4. TESTIMONI (Styling Tambahan) */
         .lab-section { padding: 4rem 5%; background: var(--white); margin-bottom: 4rem; }
         .lab-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; max-width: 1200px; margin: 2rem auto 0; }
         .lab-item { text-align: center; padding: 2rem; border: 1px solid #eee; border-radius: 15px; transition: var(--transition); }
@@ -160,7 +215,6 @@
         .lab-item h3 { margin-bottom: 0.5rem; font-size: 1.2rem; }
         .lab-item p { font-size: 0.9rem; color: var(--text-light); }
 
-        /* 4. Testimonial Section */
         .testi-section { padding: 4rem 5%; max-width: 1200px; margin: 0 auto; }
         .testi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 2rem; }
         .testi-card { background: var(--white); padding: 2rem; border-radius: 15px; box-shadow: var(--shadow); text-align: center; }
@@ -262,13 +316,17 @@
         
         @media (max-width: 768px) { 
             .selection-container { grid-template-columns: 1fr; } 
-            .hero-intro h1 { font-size: 2rem; } 
             .detail-image { height: 300px; } 
             .detail-content { padding: 2rem; } 
             
             nav.desktop-nav { display: none; } 
             .mobile-menu-btn { display: block; }
             #auth-section { display: flex; align-items: center; }
+            
+            /* Mobile Card adjustments */
+            .card { height: 350px; } /* Sedikit lebih pendek di HP */
+            .card h2 { font-size: 1.6rem; }
+            .card p { font-size: 0.9rem; }
         }
     </style>
 </head>
@@ -317,6 +375,7 @@
         
         <!-- Daftar Menu Berurutan -->
         <div style="padding: 20px;">
+            <!-- Kategori: Navigasi -->
             <p style="color:#888; font-size:0.75rem; text-transform:uppercase; font-weight:700; margin-bottom:10px;">Navigasi</p>
             <ul class="drawer-menu-list">
                 <li><a href="#" class="drawer-item" onclick="navigateTo('home'); toggleMenu()"><i class="fas fa-home"></i> Home</a></li>
@@ -324,6 +383,7 @@
                 <li><a href="#" class="drawer-item" onclick="navigateTo('serum'); toggleMenu()"><i class="fas fa-flask"></i> Serum</a></li>
             </ul>
 
+            <!-- Kategori: Diskusi -->
             <p style="color:#888; font-size:0.75rem; text-transform:uppercase; font-weight:700; margin:20px 0 10px;">Diskusi</p>
             <ul class="drawer-menu-list">
                 <li><a href="#" class="drawer-item" onclick="navigateTo('toner-forum'); toggleMenu()">Diskusi Toner</a></li>
@@ -332,7 +392,7 @@
         </div>
     </div>
 
-    <!-- VIEW 1: HOME (DIUBAH MENJADI SCROLL) -->
+    <!-- VIEW 1: HOME -->
     <main id="view-home" class="fade-in">
         
         <!-- 1. INTRO SECTION (Paling Atas) -->
@@ -342,22 +402,26 @@
             <button class="btn-scroll" onclick="scrollToProducts()">Pilih Perawatan <i class="fas fa-chevron-down"></i></button>
         </section>
 
-        <!-- 2. SELECTION SECTION (Tengah) -->
+        <!-- 2. SELECTION SECTION (Tengah - Gambar Full) -->
         <section id="products-section">
-            <h2 class="section-title">Pilih Jenis Perawatan</h2>
             <div class="selection-container">
+                <!-- Card Toner -->
                 <article class="card toner-card" onclick="navigateTo('toner')">
-                    <div class="card-image"><img src="https://raw.githubusercontent.com/chiiyoriez/testbed-website-KIR/refs/heads/main/KIR/bawi%20toner/WhatsApp%20Image%202026-01-08%20at%2021.48.36.jpeg" alt="Toner"></div>
+                    <div class="card-image"><img src="https://raw.githubusercontent.com/chiiyoriez/testbed-website-KIR/refs/heads/main/KIR/bawi%20toner/WhatsApp%20Image%202026-01-08%20at%2021.48.36.jpeg" alt="Bawi Toner"></div>
                     <div class="card-content">
-                        <i class="fas fa-spray-can card-icon"></i><h2>BAWI Toner</h2>
+                        <i class="fas fa-spray-can card-icon"></i>
+                        <h2>BAWI Toner</h2>
                         <p>Penyegar kulit untuk mengembalikan pH balance.</p>
                         <span class="btn-card">Lihat Detail</span>
                     </div>
                 </article>
+                
+                <!-- Card Serum -->
                 <article class="card serum-card" onclick="navigateTo('serum')">
-                    <div class="card-image"><img src="https://raw.githubusercontent.com/chiiyoriez/testbed-website-KIR/refs/heads/main/KIR/tabela%20serum/download%20(1).png" alt="Serum"></div>
+                    <div class="card-image"><img src="https://raw.githubusercontent.com/chiiyoriez/testbed-website-KIR/refs/heads/main/KIR/tabela%20serum/download%20(1).png" alt="Tabela Serum"></div>
                     <div class="card-content">
-                        <i class="fas fa-flask card-icon"></i><h2>TABELA Serum</h2>
+                        <i class="fas fa-flask card-icon"></i>
+                        <h2>TABELA Serum</h2>
                         <p>Konsentrat nutrisi tinggi untuk kulit sehat bercahaya.</p>
                         <span class="btn-card">Lihat Detail</span>
                     </div>
@@ -398,7 +462,7 @@
                 </div>
                 <div class="testi-card">
                     <img src="https://picsum.photos/seed/user2/200/200" alt="User" class="testi-avatar">
-                    <p class="testi-text">"Serum Tabela itu the best banget. Kulitku jadi cerah dan glowing kayak habis facial."</p>
+                    <p class="testi-text">"Serum Tabela itu best banget. Kulitku jadi cerah dan glowing kayak habis facial."</p>
                     <div class="testi-name">Rina Mariani</div>
                 </div>
                 <div class="testi-card">
@@ -413,7 +477,7 @@
     <!-- VIEW 2: TONER DETAIL -->
     <section id="view-toner" class="product-page hidden fade-in">
         <div class="detail-container">
-            <div class="detail-image"><img src="https://picsum.photos/seed/watertoner/800/800" alt="Detail Toner"></div>
+            <div class="detail-image"><img src="https://raw.githubusercontent.com/chiiyoriez/testbed-website-KIR/refs/heads/main/KIR/bawi%20toner/WhatsApp%20Image%202026-01-08%20at%2021.48.36.jpeg" alt="Detail Toner"></div>
             <div class="detail-content">
                 <div class="back-btn" onclick="navigateTo('home')"><i class="fas fa-arrow-left"></i> Kembali ke Menu</div>
                 <h2>BAWI TONER</h2>
@@ -433,7 +497,7 @@
     <!-- VIEW 3: SERUM DETAIL -->
     <section id="view-serum" class="product-page hidden fade-in">
         <div class="detail-container">
-            <div class="detail-image"><img src="https://picsum.photos/seed/goldserum/800/800" alt="Detail Serum"></div>
+            <div class="detail-image"><img src="https://raw.githubusercontent.com/chiiyoriez/testbed-website-KIR/refs/heads/main/KIR/tabela%20serum/download%20(1).png" alt="Detail Serum"></div>
             <div class="detail-content">
                 <div class="back-btn" onclick="navigateTo('home')"><i class="fas fa-arrow-left"></i> Kembali ke Menu</div>
                 <h2>TABELA Serum</h2>
@@ -569,7 +633,7 @@
         </div>
     </section>
 
-    <!-- FOOTER (DIUPDATE) -->
+    <!-- FOOTER (UPDATED) -->
     <footer>
         <div class="footer-content">
             <p>&copy; Sejak 2025 GlowSkin Indonesia</p>
@@ -667,7 +731,7 @@
             drawer.classList.toggle('active');
             backdrop.classList.toggle('active');
 
-            // Ubah icon
+            // Ubah icon Strip 3 jadi Silang (X)
             if (drawer.classList.contains('active')) {
                 icon.classList.remove('fa-bars');
                 icon.classList.add('fa-times');
@@ -964,4 +1028,3 @@
     </script>
 </body>
 </html>
-
