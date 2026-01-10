@@ -243,7 +243,7 @@
             display: flex; 
             flex-direction: column; 
             align-items: center; 
-            justify-content: normal;
+            justify-content: center;
             box-shadow: var(--shadow);
             height: 250px; 
             position: relative; 
@@ -471,81 +471,6 @@
             padding: 2px 6px; border-radius: 4px; margin-left: 5px; vertical-align: middle;
         }
 
-              /* --- FOOTER UPDATED (BUTTONS STYLE) --- */
-        footer { 
-            background-color: var(--white); 
-            padding: 3rem 2rem; /* Padding agak gedean biar lega */
-            text-align: center; 
-            border-top: 1px solid #eee; 
-            margin-top: auto; 
-        }
-        
-        .footer-content {
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            gap: 2rem; /* Jarak antar teks dan tombol */
-        }
-
-        /* Styling Teks Copyright */
-        .footer-copyright {
-            font-weight: 700;
-            font-size: 1rem;
-            color: var(--text-light);
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-
-        /* Container Tombol */
-        .social-links { 
-            display: flex; 
-            gap: 1.5rem; 
-            flex-wrap: wrap; /* Biar turun ke bawah kalau HP */
-            justify-content: center; 
-        }
-
-        /* Style Tombol Keren (Pill Shape) */
-        .footer-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px; /* Jarak ikon sama teks */
-            padding: 12px 25px;
-            border-radius: 50px;
-            color: white;
-            font-weight: 700;
-            text-decoration: none;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            font-size: 0.95rem;
-        }
-
-        /* Tombol Email (Ungu Toner) */
-        .btn-email {
-            background: var(--accent-toner);
-            border: 2px solid var(--accent-toner);
-        }
-        .btn-email:hover {
-            background: var(--accent-toner-dark);
-            transform: translateY(-3px); /* Efek naik dikit */
-            box-shadow: 0 10px 25px rgba(158, 143, 178, 0.3);
-        }
-
-        /* Tombol Instagram (Pink Serum) */
-        .btn-ig {
-            background: var(--accent-serum);
-            border: 2px solid var(--accent-serum);
-        }
-        .btn-ig:hover {
-            background: var(--accent-serum-dark);
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(230, 164, 164, 0.3);
-        }
-
-        /* Icon di dalam tombol */
-        .footer-btn i {
-            font-size: 1.1rem;
-        }
-        
         /* --- TEAM SECTION (TIM KAMI) --- */
         .team-section {
             background: var(--white);
@@ -664,57 +589,7 @@
         .member-name { font-size: 1.2rem; font-weight: 700; color: var(--text-dark); margin-bottom: 0.2rem; }
         .member-role { font-size: 0.95rem; color: var(--text-light); font-weight: 500; }
 
-        /* Efek Border saat Hover */
-        .toner-card:hover .member-avatar { border-color: var(--accent-toner); }
-        .serum-card:hover .member-avatar { border-color: var(--accent-serum); }
-        
-        /* Kartu Member */
-        .member-card {
-            background: #fff;
-            border: 1px solid #eee;
-            border-radius: 20px;
-            padding: 1.5rem;
-            width: 100%;
-            max-width: 350px;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-        }
-        
-        .member-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 25px rgba(0,0,0,0.1);
-        }
-
-        .member-avatar {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid transparent;
-        }
-
-        .member-info {
-            text-align: left;
-            flex-grow: 1;
-        }
-
-        .member-name {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: var(--text-dark);
-            margin-bottom: 0.2rem;
-        }
-
-        .member-role {
-            font-size: 0.85rem;
-            color: var(--text-light);
-            font-weight: 500;
-        }
-
-                 /* --- TEAM SECTION UPDATE (Sekolah) --- */
+        /* --- TEAM SECTION UPDATE (Sekolah) --- */
         
         .member-school {
             font-size: 0.85rem;
@@ -909,6 +784,81 @@
             background: #f9f9f9;
             padding: 10px;
         }
+        /* --- FOOTER UPDATED (BUTTONS STYLE) --- */
+        footer { 
+            background-color: var(--white); 
+            padding: 3rem 2rem; /* Padding agak gedean biar lega */
+            text-align: center; 
+            border-top: 1px solid #eee; 
+            margin-top: auto; 
+        }
+        
+        .footer-content {
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            gap: 2rem; /* Jarak antar teks dan tombol */
+        }
+
+        /* Styling Teks Copyright */
+        .footer-copyright {
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--text-light);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* Container Tombol */
+        .social-links { 
+            display: flex; 
+            gap: 1.5rem; 
+            flex-wrap: wrap; /* Biar turun ke bawah kalau HP */
+            justify-content: center; 
+        }
+
+        /* Style Tombol Keren (Pill Shape) */
+        .footer-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px; /* Jarak ikon sama teks */
+            padding: 12px 25px;
+            border-radius: 50px;
+            color: white;
+            font-weight: 700;
+            text-decoration: none;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-size: 0.95rem;
+        }
+
+        /* Tombol Email (Ungu Toner) */
+        .btn-email {
+            background: var(--accent-toner);
+            border: 2px solid var(--accent-toner);
+        }
+        .btn-email:hover {
+            background: var(--accent-toner-dark);
+            transform: translateY(-3px); /* Efek naik dikit */
+            box-shadow: 0 10px 25px rgba(158, 143, 178, 0.3);
+        }
+
+        /* Tombol Instagram (Pink Serum) */
+        .btn-ig {
+            background: var(--accent-serum);
+            border: 2px solid var(--accent-serum);
+        }
+        .btn-ig:hover {
+            background: var(--accent-serum-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(230, 164, 164, 0.3);
+        }
+
+        /* Icon di dalam tombol */
+        .footer-btn i {
+            font-size: 1.1rem;
+        }
+        
         /* --- RESPONSIVE MEDIA QUERIES --- */
         @media (max-width: 900px) { .forum-wrapper { grid-template-columns: 1fr; } .form-card { position: static; } }
         
@@ -1003,7 +953,7 @@
 
         <!-- 1.5. TEAM SECTION (TIM KAMI) -->
         <section class="team-section">
-            <h2 class="section-title" style="margin-bottom: 3rem;">People Behind the Product</h2>
+            <h2 class="section-title" style="margin-bottom: 3rem;">People Behind The Product</h2>
             
             <!-- 1 SUPERVISOR BESAR (PAKING TENGAH ATAS) -->
             <div class="supervisor-card">
@@ -1012,6 +962,7 @@
                 <div class="supervisor-info">
                     <div class="supervisor-name">Arbendi I. Tue S.Pd</div>
                     <div class="supervisor-role">Supervisor</div>
+                    <span class="badge-supervisor">Supervisor</span>
                 </div>
             </div>
 
@@ -1043,7 +994,7 @@
                         </div>
                     </div>
 
-  <!-- Member 3-->
+                    <!-- Member 3 -->
                     <div class="member-card toner-card">
                         <img src="KIR/bawi toner/De'Nabila.png" alt="Member" class="member-avatar">
                         <div class="member-info">
@@ -1053,7 +1004,7 @@
                         </div>
                     </div>
 
-                    <!-- Member 4 -->
+                    <!-- Member 4 (Dihapus agar muat 3) -->
                     <div class="member-card toner-card">
                         <img src="KIR/bawi toner/Mutia.png" alt="Member" class="member-avatar">
                         <div class="member-info">
@@ -1079,11 +1030,11 @@
                         </div>
                     </div>
 
-                      <!-- Member 2 -->
-                    <div class="member-card toner-card">
+                    <!-- Member 2 -->
+                    <div class="member-card serum-card">
                         <img src="KIR/tabela serum/Echa.png" alt="Member" class="member-avatar">
                         <div class="member-info">
-                            <div class="member-name">Nama Anggota 2</div>
+                            <div class="member-name">Echa Enjelina</div>
                             <!-- DITAMBAH: INFO SEKOLAH -->
                             <div class="member-school">SMAS Golden Christian School</div>
                         </div>
@@ -1093,17 +1044,17 @@
                     <div class="member-card serum-card">
                         <img src="KIR/tabela serum/Nata.png" alt="Member" class="member-avatar">
                         <div class="member-info">
-                            <div class="member-name">Nama Anggota 2</div>
+                            <div class="member-name">Renata Dinara Fransille</div>
                             <!-- DITAMBAH: INFO SEKOLAH -->
                             <div class="member-school">SMAS Golden Christian School</div>
                         </div>
                     </div>
 
-                    <!-- Member 4 -->
+                    <!-- Member 4 (Dihapus agar muat 3) -->
                     <div class="member-card serum-card">
                         <img src="KIR/tabela serum/Veny.png" alt="Member" class="member-avatar">
                         <div class="member-info">
-                            <div class="member-name">Nama Anggota 3</div>
+                            <div class="member-name">Hilkia Geoveny Kristy</div>
                             <!-- DITAMBAH: INFO SEKOLAH -->
                             <div class="member-school">SMAS Golden Christian School</div>
                         </div>
@@ -1123,7 +1074,7 @@
                     </div>
                     <div class="card-content">
                         <i class="fas fa-spray-can card-icon"></i>
-                        <h2>BAWI Toner</h2>
+                        <h2>BAWI TONER</h2>
                         <p>Penyegar kulit untuk mengembalikan pH balance.</p>
                         <span class="btn-card">View Detail</span>
                     </div>
@@ -1207,11 +1158,16 @@
                     <p class="testi-text">"Pelayanan memuaskan dan produknya cepat bereaksi. GlowSkin emang juara!"</p>
                     <div class="testi-name">Dinda Kirana</div>
                 </div>
+                <div class="testi-card">
+                    <img src="https://picsum.photos/seed/user3/200/200" alt="User" class="testi-avatar">
+                    <p class="testi-text">"Pelayanan memuaskan dan produknya cepat bereaksi. GlowSkin emang juara!"</p>
+                    <div class="testi-name">Dinda Kirana</div>
+                </div>
             </div>
         </section>
     </main>
 
-    <!-- VIEW 2: TONER DETAIL (FIXED WARNA UNGU) -->
+    <!-- VIEW 2: TONER DETAIL (UPDATED STYLE SERUM) -->
     <section id="view-toner" class="product-page hidden fade-in">
         <div class="detail-container">
             <div class="detail-image"><img src="KIR/bawi toner/logo toner 513px .jpg" alt="Detail Toner"></div>
@@ -1230,11 +1186,10 @@
             </div>
         </div>
 
-        <!-- 1. BEFORE & AFTER SECTION -->
+        <!-- 1. BEFORE & AFTER SECTION (SERUM STYLE) -->
         <div class="ba-section">
             <div class="ba-header">
-                <!-- Dihapus style="...", otomatis pakai warna var(--accent-toner) dari CSS -->
-                <h3 class="ba-title"><i class="fas fa-camera"></i> Before & After using Toner</h3>
+                <h3 class="ba-title" style="color: var(--accent-toner-dark);"><i class="fas fa-camera"></i> Before & After using Toner</h3>
             </div>
             <div class="ba-grid">
                 <div class="ba-photo-container">
@@ -1242,20 +1197,18 @@
                     <div class="ba-label">BEFORE</div>
                 </div>
                 <div class="ba-photo-container">
-                    <img src="KIR/before after/toner after.jpg" alt="After">
+                    <img src="KIR/before after/toner after.jpg" alt="Sesudah">
                     <div class="ba-label" style="background: var(--accent-me);">AFTER</div>
                 </div>
             </div>
         </div>
 
-        <!-- 2. HOW TO USE SECTION -->
+        <!-- 2. HOW TO USE SECTION (SERUM STYLE) -->
         <div class="steps-section">
             <div class="ba-header">
-                <!-- Dihapus style="...", otomatis pakai warna var(--accent-toner) dari CSS -->
-                <h3 class="ba-title"><i class="fas fa-book"></i> How To Use</h3>
+                <h3 class="ba-title" style="color: var(--accent-toner-dark);"><i class="fas fa-book"></i> How To Use</h3>
             </div>
             <div class="step-item">
-                <!-- Dihapus style="background...", otomatis pakai var(--accent-toner) -->
                 <div class="step-num">1</div>
                 <div class="step-content">
                     <h4>Cleanse your face.</h4>
@@ -1263,7 +1216,6 @@
                 </div>
             </div>
             <div class="step-item">
-                <!-- Dihapus style="background...", otomatis pakai var(--accent-toner) -->
                 <div class="step-num">2</div>
                 <div class="step-content">
                     <h4>Slide spray button and then direct nano spray to your face.</h4>
@@ -1271,24 +1223,22 @@
                 </div>
             </div>
             <div class="step-item">
-                <!-- Dihapus style="background...", otomatis pakai var(--accent-toner) -->
                 <div class="step-num">3</div>
                 <div class="step-content">
-                    <h4>Use the Toner Regularly, results will be visible in 3 days.</h4>
+                    <h4>Use Toner Regularly, results will be visible in 3 days.</h4>
                     <p>Pijat-pijat lembut agar toner meresap. Biarkan selama 1 menit sebelum melanjutkan tahap skincare selanjutnya.</p>
                 </div>
             </div>
         </div>
 
-        <!-- 3. INGREDIENTS SECTION (DIUBAH CLASS KE TONER-CARD) -->
+        <!-- 3. INGREDIENTS SECTION (SERUM STYLE - NAMA -> KETERANGAN -> FOTO) -->
         <div class="ingredients-wrapper">
             <div class="ba-header">
-                <!-- Dihapus style="...", otomatis pakai warna var(--accent-toner) dari CSS -->
-                <h3 class="ba-title"><i class="fas fa-leaf"></i> Main Ingridients Used to make Toner</h3>
+                <h3 class="ba-title" style="color: var(--accent-toner-dark);"><i class="fas fa-leaf"></i> Main Ingridients Used to make Toner</h3>
             </div>
             <div class="ingredients-grid">
                 
-                <!-- Bahan 1 (Class diubah jadi toner-card) -->
+                <!-- Bahan 1 -->
                 <div class="ingredient-card toner-card">
                     <div class="ingredient-name">Ekstrak Bawang Putih</div>
                     <div class="ingredient-desc">Antibakteri alami kuat untuk membunuh jerawat dan mencegah peradangan.</div>
@@ -1297,7 +1247,7 @@
                     </div>
                 </div>
 
-                <!-- Bahan 2 (Class diubah jadi toner-card) -->
+                <!-- Bahan 2 -->
                 <div class="ingredient-card toner-card">
                     <div class="ingredient-name">Ekstrak Kayu Bajakah</div>
                     <div class="ingredient-desc">Efficace sebagai anti-inflamasi dan membantu mempercepat penyembuhan luka jerawat.</div>
@@ -1306,7 +1256,7 @@
                     </div>
                 </div>
 
-                <!-- Bahan 3 (Class diubah jadi toner-card) -->
+                <!-- Bahan 3 -->
                 <div class="ingredient-card toner-card">
                     <div class="ingredient-name">Air Daun Pandan</div>
                     <div class="ingredient-desc">bokep.</div>
@@ -1319,7 +1269,7 @@
         </div>
     </section>
 
-       <!-- VIEW 3: SERUM DETAIL (FIXED ICON WARNA PINK) -->
+    <!-- VIEW 3: SERUM DETAIL (UPDATED ICON PINK) -->
     <section id="view-serum" class="product-page hidden fade-in">
         <div class="detail-container">
             <div class="detail-image"><img src="KIR/tabela serum/tabela logo 513px.png" alt="Detail Serum"></div>
@@ -1338,7 +1288,7 @@
             </div>
         </div>
 
-        <!-- 1. BEFORE & AFTER SECTION (ICON PINK) -->
+        <!-- 1. BEFORE & AFTER SECTION -->
         <div class="ba-section">
             <div class="ba-header">
                 <h3 class="ba-title" style="color: var(--accent-serum-dark);">
@@ -1349,17 +1299,17 @@
             </div>
             <div class="ba-grid">
                 <div class="ba-photo-container">
-                    <img src="KIR/before after/serum before.jpg" alt="Before">
+                    <img src="KIR/before after/serum before.jpg" alt="Sebelum">
                     <div class="ba-label">BEFORE</div>
                 </div>
                 <div class="ba-photo-container">
-                    <img src="KIR/before after/serum after.jpg" alt="After">
+                    <img src="KIR/before after/serum after.jpg" alt="Sesudah">
                     <div class="ba-label" style="background: var(--accent-me);">AFTER</div>
                 </div>
             </div>
         </div>
 
-        <!-- 2. HOW TO USE SECTION (ICON BUKU PINK) -->
+        <!-- 2. HOW TO USE SECTION -->
         <div class="steps-section">
             <div class="ba-header">
                 <h3 class="ba-title" style="color: var(--accent-serum-dark);">
@@ -1391,7 +1341,7 @@
             </div>
         </div>
 
-        <!-- 3. INGREDIENTS SECTION (ICON DAUN PINK) -->
+        <!-- 3. INGREDIENTS SECTION -->
         <div class="ingredients-wrapper">
             <div class="ba-header">
                 <h3 class="ba-title" style="color: var(--accent-serum-dark);">
@@ -1433,7 +1383,7 @@
         </div>
     </section>
 
-       <!-- VIEW 8: LAB TONER DETAIL (FIXED WARNA) -->
+    <!-- VIEW 8: LAB TONER DETAIL (FIXED WARNA) -->
     <section id="view-lab-toner" class="product-page hidden fade-in">
         <div class="detail-container">
             <!-- FOTO VERTICAL STACK (KIRI) -->
@@ -1543,7 +1493,7 @@
         </div>
     </section>
 
-       <!-- VIEW 9: LAB SERUM DETAIL (FIXED JUSTIFY) -->
+    <!-- VIEW 9: LAB SERUM DETAIL (FIXED JUSTIFY) -->
     <section id="view-lab-serum" class="product-page hidden fade-in">
         <div class="detail-container">
             <!-- FOTO VERTICAL STACK (KIRI) -->
@@ -1644,9 +1594,9 @@
                 </div>
 
                 <button class="action-btn" style="background-color: var(--accent-serum); margin-top: 1rem;" onclick="navigateTo('serum')">Pesan Tabela Serum</button>
-            <div>
-        <div>
-    <section>
+            </div>
+        </div>
+    </section>
 
     <!-- VIEW 4: FORUM TONER -->
     <section id="view-toner-forum" class="product-page hidden fade-in">
@@ -1766,6 +1716,28 @@
             </div>
         </div>
     </section>
+
+    <!-- FOOTER (UPDATED BUTTONS) -->
+    <footer>
+        <div class="footer-content">
+            <p class="footer-copyright">Sejak 2025</p>
+            
+            <!-- Tombol Social Links -->
+            <div class="social-links">
+                <!-- Tombol Email (Ungu) -->
+                <a href="mailto:contact@glowskin.com" class="footer-btn btn-email">
+                    <i class="fas fa-envelope"></i>
+                    <span>Email</span>
+                </a>
+
+                <!-- Tombol Instagram (Pink) -->
+                <a href="https://instagram.com" target="_blank" class="footer-btn btn-ig">
+                    <i class="fab fa-instagram"></i>
+                    <span>Instagram</span>
+                </a>
+            </div>
+        </div>
+    </footer>
 
     <script>
         // ==========================================
@@ -2176,39 +2148,6 @@
 
         listenToDatabase();
 
-    <!-- FOOTER (UPDATED BUTTONS) -->
-    <footer>
-        <div class="footer-content">
-            <p class="footer-copyright">Sejak 2025</p>
-            
-            <!-- Tombol Social Links -->
-            <div class="social-links">
-                <!-- Tombol Email (Ungu) -->
-                <a href="mailto:contact@glowskin.com" class="footer-btn btn-email">
-                    <i class="fas fa-envelope"></i>
-                    <span>Email</span>
-                </a>
-
-                <!-- Tombol Instagram (Pink) -->
-                <a href="https://instagram.com" target="_blank" class="footer-btn btn-ig">
-                    <i class="fab fa-instagram"></i>
-                    <span>Instagram</span>
-                </a>
-            </div>
-        </div>
-    </footer>
-        
     </script>
-        </body>
-    </html>
-
-
-
-
-
-
-
-
-
-
-
+</body>
+</html>
