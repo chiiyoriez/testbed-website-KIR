@@ -683,6 +683,40 @@
 
         .toner-card:hover .member-avatar { border-color: var(--accent-toner); }
         .serum-card:hover .member-avatar { border-color: var(--accent-serum); }
+
+        /* --- LAB DATA TEXT CARD (PENGGANTI TABEL) --- */
+        .lab-data-card {
+            background: var(--white);
+            border: 1px solid #eee; /* Sama border kayak tabel */
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow); /* Shadow tetep ada biar gak datar */
+            font-size: 0.95rem;
+        }
+
+        .lab-data-title {
+            color: var(--text-dark);
+            font-weight: 800;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .lab-data-title i {
+            color: var(--accent-toner); /* Ikon buat visual */
+            font-size: 1.1rem;
+        }
+
+        .lab-data-desc {
+            color: var(--text-light);
+            line-height: 1.7;
+        }
+
+        /* Khusus Serum warnanya */
+        .serum-title i { color: var(--accent-serum); }
         
         /* --- RESPONSIVE MEDIA QUERIES --- */
         @media (max-width: 900px) { .forum-wrapper { grid-template-columns: 1fr; } .form-card { position: static; } }
@@ -854,8 +888,8 @@
             <nav class="desktop-nav">
                 <a class="nav-link" onclick="navigateTo('toner')">Toner</a>
                 <a class="nav-link" onclick="navigateTo('serum')">Serum</a>
-                <a class="nav-link" onclick="navigateTo('toner-forum')">Diskusi Toner</a>
-                <a class="nav-link" onclick="navigateTo('serum-forum')">Diskusi Serum</a>
+                <a class="nav-link" onclick="navigateTo('toner-forum')">Toner Disscussion</a>
+                <a class="nav-link" onclick="navigateTo('serum-forum')">Serum Disscussion</a>
             </nav>
 
             <!-- Auth Section -->
@@ -895,10 +929,10 @@
             </ul>
 
             <!-- Kategori: Diskusi -->
-            <p style="color:#888; font-size:0.75rem; text-transform:uppercase; font-weight:700; margin:20px 0 10px;">Diskusi</p>
+            <p style="color:#888; font-size:0.75rem; text-transform:uppercase; font-weight:700; margin:20px 0 10px;">Disscussion</p>
             <ul class="drawer-menu-list">
-                <li><a href="#" class="drawer-item" onclick="navigateTo('toner-forum'); toggleMenu()">Diskusi Toner</a></li>
-                <li><a href="#" class="drawer-item" onclick="navigateTo('serum-forum'); toggleMenu()">Diskusi Serum</a></li>
+                <li><a href="#" class="drawer-item" onclick="navigateTo('toner-forum'); toggleMenu()">Toner Discussion</a></li>
+                <li><a href="#" class="drawer-item" onclick="navigateTo('serum-forum'); toggleMenu()">Serum Disscussion</a></li>
             </ul>
         </div>
     </div>
@@ -910,7 +944,6 @@
         <section class="hero-intro">
             <h1>GlowSkin <span>Indonesia</span></h1>
             <p>Solusi skincare alami dan terpercaya untuk merawat kecantikan sejati Anda. Dapatkan kulit sehat, bercahaya, dan penuh percaya diri.</p>
-            <button class="btn-scroll" onclick="scrollToProducts()">Pilih Perawatan <i class="fas fa-chevron-down"></i></button>
         </section>
 
                 <!-- 1.5. TEAM SECTION (TIM KAMI) -->
@@ -1023,7 +1056,7 @@
                         <i class="fas fa-spray-can card-icon"></i>
                         <h2>BAWI Toner</h2>
                         <p>Penyegar kulit untuk mengembalikan pH balance.</p>
-                        <span class="btn-card">Lihat Detail</span>
+                        <span class="btn-card">View Detail</span>
                     </div>
                 </article>
                 
@@ -1036,7 +1069,7 @@
                         <i class="fas fa-flask card-icon"></i>
                         <h2>TABELA Serum</h2>
                         <p>Konsentrat nutrisi tinggi untuk kulit sehat bercahaya.</p>
-                        <span class="btn-card">Lihat Detail</span>
+                        <span class="btn-card">View Detail</span>
                     </div>
                 </article>
             </div>
@@ -1044,7 +1077,7 @@
 
         <!-- 3. LAB SECTION (DIJADIKAN 2 SELECTION CLICKABLE) -->
         <section class="lab-section">
-            <h2 class="section-title">Teruji Klinis & Aman</h2>
+            <h2 class="section-title">Product Lab Test Data</h2>
             <div class="lab-grid">
                 
                 <!-- PILIHAN 1: UJI LAB TONER -->
@@ -1052,10 +1085,10 @@
                     <img src="https://picsum.photos/seed/lab/600/600" class="lab-bg-img" alt="Lab">
                     
                     <i class="fas fa-microscope lab-icon"></i>
-                    <h3>Hasil Uji Lab Toner</h3>
-                    <p>Analisa keamanan dan efektivitas Bawi Toner.</p>
+                    <h3>Bawi Toner Lab test Results</h3>
+                    <p>Take a look The Tabela Serum Lab Test Result for all ingridients used in Toner.</p>
                     
-                    <div class="btn-lab-view">Lihat Data Toner</div>
+                    <div class="btn-lab-view">View Bawi Toner Data</div>
                 </article>
                 
                 <!-- PILIHAN 2: UJI LAB SERUM -->
@@ -1063,17 +1096,17 @@
                     <img src="https://picsum.photos/seed/lab2/600/600" class="lab-bg-img" alt="Lab">
                     
                     <i class="fas fa-flask lab-icon"></i>
-                    <h3>Hasil Uji Lab Serum</h3>
-                    <p>Analisa komposisi Vitamin C dan efektivitas Tabela Serum.</p>
+                    <h3>Tabela Serum Lab Test Results</h3>
+                    <p>Take a look The Tabela Serum Lab Test Result for the Rambutan and Bajakah Kalalawit used in Serum</p>
                     
-                    <div class="btn-lab-view">Lihat Data Serum</div>
+                    <div class="btn-lab-view">View Tabela Serum Data</div>
                 </article>
             </div>
         </section>
 
         <!-- 4. TESTIMONI SECTION -->
         <section class="testi-section">
-            <h2 class="section-title">Kata Mereka</h2>
+            <h2 class="section-title">What They Say After using Our Product</h2>
             <div class="testi-grid">
                 <div class="testi-card">
                     <img src="https://picsum.photos/seed/user1/200/200" alt="User" class="testi-avatar">
@@ -1090,6 +1123,11 @@
                     <p class="testi-text">"Pelayanan memuaskan dan produknya cepat bereaksi. GlowSkin emang juara!"</p>
                     <div class="testi-name">Dinda Kirana</div>
                 </div>
+                <div class="testi-card">
+                    <img src="https://picsum.photos/seed/user3/200/200" alt="User" class="testi-avatar">
+                    <p class="testi-text">"Pelayanan memuaskan dan produknya cepat bereaksi. GlowSkin emang juara!"</p>
+                    <div class="testi-name">Dinda Kirana</div>
+                </div>
             </div>
         </section>
     </main>
@@ -1100,32 +1138,32 @@
         <div class="detail-container">
             <div class="detail-image"><img src="KIR/bawi toner/logo toner 513px .jpg" alt="Detail Toner"></div>
             <div class="detail-content">
-                <div class="back-btn" onclick="navigateTo('home')"><i class="fas fa-arrow-left"></i> Kembali ke Menu</div>
+                <div class="back-btn" onclick="navigateTo('home')"><i class="fas fa-arrow-left"></i>Back To Menu</div>
                 <h2>BAWI TONER</h2>
                 <span class="detail-price">Rp 40.000</span>
                 <p class="detail-desc">Inspired by natural 'Bawi Kuwu' treatments, this toner blends Taya stem, Dayak onion, Bajakah water, and Pandan leaves. Natural solution for acne-prone skin.</p>
                 <div class="feature-grid">
-                    <div class="feature-item"><i class="fas fa-check-circle"></i> Acne Prone Skin</div>
-                    <div class="feature-item"><i class="fas fa-check-circle"></i> Sensitive Skin</div>
-                    <div class="feature-item"><i class="fas fa-check-circle"></i> Calming Redness</div>
-                    <div class="feature-item"><i class="fas fa-check-circle"></i> 20ml</div>
+                    <div class="feature-item"></i> Acne Prone Skin</div>
+                    <div class="feature-item"></i> Sensitive Skin</div>
+                    <div class="feature-item"></i> class="fas fa-check-circle"></i> Calming Redness</div>
+                    <div class="feature-item"></i> class="fas fa-check-circle"></i> 20ml</div>
                 </div>
-                <button class="action-btn" onclick="navigateTo('toner-forum')">Lihat Diskusi Toner</button>
+                <button class="action-btn" onclick="navigateTo('toner-forum')">View the Toner Disscussion</button>
             </div>
         </div>
 
         <!-- 1. BEFORE & AFTER SECTION -->
         <div class="ba-section">
             <div class="ba-header">
-                <h3 class="ba-title"><i class="fas fa-camera"></i> Hasil Sebelum & Sesudah</h3>
+                <h3 class="ba-title"><i class="fas fa-camera"></i> Before & After using the Toner</h3>
             </div>
             <div class="ba-grid">
                 <div class="ba-photo-container">
-                    <img src="KIR/before after/toner before.jpg" alt="Sebelum">
+                    <img src="KIR/before after/toner before.jpg" alt="Before">
                     <div class="ba-label">BEFORE</div>
                 </div>
                 <div class="ba-photo-container">
-                    <img src="KIR/before after/toner after.jpg" alt="Sesudah">
+                    <img src="KIR/before after/toner after.jpg" alt="After">
                     <div class="ba-label" style="background: var(--accent-me);">AFTER</div>
                 </div>
             </div>
@@ -1134,27 +1172,21 @@
         <!-- 2. HOW TO USE SECTION -->
         <div class="steps-section">
             <div class="ba-header">
-                <h3 class="ba-title"><i class="fas fa-book"></i> Cara Penggunaan</h3>
+                <h3 class="ba-title"><i class="fas fa-book"></i> How To Use</h3>
             </div>
             <div class="step-item">
-                <div class="step-num">1</div>
+                <div class="step-num">1. Cleanse your face.</div>
                 <div class="step-content">
-                    <h4>Bersihkan Wajah</h4>
-                    <p>Cuci wajuh terlebih dahulu menggunakan pembersih wajah yang lembut untuk mengangkat kotoran dan sisa make-up.</p>
                 </div>
             </div>
             <div class="step-item">
-                <div class="step-num">2</div>
+                <div class="step-num">2. Slide the spray button and then direct the nano spray to your face.</div>
                 <div class="step-content">
-                    <h4>Tuangkan Toner</h4>
-                    <p>Tuangkan 2-3 tetes Bawi Toner ke kapas cotton. Usapkan secara perlahan ke seluruh wajah dengan gerakan menurup.</p>
                 </div>
             </div>
             <div class="step-item">
-                <div class="step-num">3</div>
+                <div class="step-num">3. Use the Toner Regularly, the results will be visible in 3 days.</div>
                 <div class="step-content">
-                    <h4>Tes dan Diamkan</h4>
-                    <p>Pijat-pijat lembut agar toner meresap. Biarkan selama 1 menit sebelum melanjutkan tahap skincare selanjutnya.</p>
                 </div>
             </div>
         </div>
@@ -1162,7 +1194,7 @@
         <!-- 3. INGREDIENTS SECTION (NAMA -> KETERANGAN -> FOTO) -->
         <div class="ingredients-wrapper">
             <div class="ba-header">
-                <h3 class="ba-title"><i class="fas fa-leaf"></i> Komposisi Bahan Utama</h3>
+                <h3 class="ba-title"><i class="fas fa-leaf"></i>Main Ingridients Used to make the Toner</h3>
             </div>
             <div class="ingredients-grid">
                 
@@ -1187,7 +1219,7 @@
                 <!-- Bahan 3 -->
                 <div class="ingredient-card toner-card">
                     <div class="ingredient-name">Air Daun Pandan</div>
-                    <div class="ingredient-desc">Melembabkan kulit dan memberikan efek penyegar alami serta antioksidan.</div>
+                    <div class="ingredient-desc">bokep.</div>
                     <div class="ingredient-img-wrapper">
                         <img src="KIR/bahan/pandan.jpg" alt="Pandan">
                     </div>
@@ -1203,32 +1235,32 @@
         <div class="detail-container">
             <div class="detail-image"><img src="KIR/tabela serum/tabela logo 513px.png" alt="Detail Serum"></div>
             <div class="detail-content">
-                <div class="back-btn" onclick="navigateTo('home')"><i class="fas fa-arrow-left"></i> Kembali ke Menu</div>
+                <div class="back-btn" onclick="navigateTo('home')"><i class="fas fa-arrow-left"></i>Back To Menu</div>
                 <h2>TABELA Serum</h2>
                 <span class="detail-price">Rp 10.000</span>
                 <p class="detail-desc">Serum wajah dengan kandungan Vitamin C dan Niacinamide untuk mencerahkan kulit dan menyamarkan noda hitam. Teksturnya ringan dan cepat menyerap.</p>
                 <div class="feature-grid">
-                    <div class="feature-item"><i class="fas fa-check-circle"></i> Brightening</div>
-                    <div class="feature-item"><i class="fas fa-check-circle"></i> Anti Aging</div>
-                    <div class="feature-item"><i class="fas fa-check-circle"></i> Vitamin C 20%</div>
-                    <div class="feature-item"><i class="fas fa-check-circle"></i> 10ml</div>
+                    <div class="feature-item"></i> Brightening</div>
+                    <div class="feature-item"></i> Anti Aging</div>
+                    <div class="feature-item"></i> Vitamin C 20%</div>
+                    <div class="feature-item"></i> 10ml</div>
                 </div>
-                <button class="action-btn" onclick="navigateTo('serum-forum')">Lihat Diskusi Serum</button>
+                <button class="action-btn" onclick="navigateTo('serum-forum')">View the Serum Disscussion</button>
             </div>
         </div>
 
         <!-- 1. BEFORE & AFTER SECTION -->
         <div class="ba-section">
             <div class="ba-header">
-                <h3 class="ba-title" style="color: var(--accent-serum-dark);"><i class="fas fa-camera"></i> Hasil Sebelum & Sesudah</h3>
+                <h3 class="ba-title" style="color: var(--accent-serum-dark);"><i class="fas fa-camera"></i>Before & After using the Serum</h3>
             </div>
             <div class="ba-grid">
                 <div class="ba-photo-container">
-                    <img src="KIR/before after/serum before.jpg" alt="Sebelum">
+                    <img src="KIR/before after/serum before.jpg" alt="Before">
                     <div class="ba-label">BEFORE</div>
                 </div>
                 <div class="ba-photo-container">
-                    <img src="KIR/before after/serum after.jpg" alt="Sesudah">
+                    <img src="KIR/before after/serum after.jpg" alt="After">
                     <div class="ba-label" style="background: var(--accent-me);">AFTER</div>
                 </div>
             </div>
@@ -1237,27 +1269,21 @@
         <!-- 2. HOW TO USE SECTION -->
         <div class="steps-section">
             <div class="ba-header">
-                <h3 class="ba-title" style="color: var(--accent-serum-dark);"><i class="fas fa-book"></i> Cara Penggunaan</h3>
+                <h3 class="ba-title" style="color: var(--accent-serum-dark);"><i class="fas fa-book"></i>How To Use</h3>
             </div>
             <div class="step-item">
-                <div class="step-num" style="background: var(--accent-serum);">1</div>
+                <div class="step-num" style="background: var(--accent-serum);">1. Cleanse your face.</div>
                 <div class="step-content">
-                    <h4>Bersihkan & Tone</h4>
-                    <p>Cuci wajuh hingga bersih, lalu aplikasikan Toner Tabela untuk menyeimbangkan pH kulit agar Serum bekerja maksimal.</p>
                 </div>
             </div>
             <div class="step-item">
-                <div class="step-num" style="background: var(--accent-serum);">2</div>
+                <div class="step-num" style="background: var(--accent-serum);">2. Pump 2 to 3 Tabela Serum to your hand and then apply the serum to your face</div>
                 <div class="step-content">
-                    <h4>Aplikasikan Serum</h4>
-                    <p>Pompa 2-3 tetes Tabela Serum ke telapak tangan. Usapkan ke seluruh wajah dan leher dengan gerakan menurup.</p>
                 </div>
             </div>
             <div class="step-item">
-                <div class="step-num" style="background: var(--accent-serum);">3</div>
+                <div class="step-num" style="background: var(--accent-serum);">3. after applying the serum, you need to massage your face in circular motions. To see the result, you must Use the serum everyday, the result will be visible 1 week after using Tabela Serum Regularly.</div>
                 <div class="step-content">
-                    <h4>Tepuk & Pijat</h4>
-                    <p>Tepuk-tepuk serum hingga meresap sempurna, lalu pijat halus ke atas agar krim menembus lebih dalam.</p>
                 </div>
             </div>
         </div>
@@ -1265,7 +1291,7 @@
         <!-- 3. INGREDIENTS SECTION -->
         <div class="ingredients-wrapper">
             <div class="ba-header">
-                <h3 class="ba-title" style="color: var(--accent-serum-dark);"><i class="fas fa-leaf"></i> Komposisi Bahan Utama</h3>
+                <h3 class="ba-title" style="color: var(--accent-serum-dark);"><i class="fas fa-leaf"></i>Main Ingridients Used to make the Serum</h3>
             </div>
             <div class="ingredients-grid">
                 
@@ -1351,47 +1377,55 @@
                 <!-- 6 TABEL HASIL UJI LAB -->
                 <h3 style="margin-bottom: 1rem; font-size: 1.5rem; color: var(--text-dark);">Hasil Uji Laboratorium</h3>
 
+                <!-- 6 KARTU DATA HASIL UJI LAB (TEKS ONLY) -->
+                
                 <!-- Tabel 1: pH -->
-                <table class="lab-table">
-                    <tr><th>Parameter</th><th>Hasil</th></tr>
-                    <tr><td>pH Larutan</td><td class="result-pass">4.5 (Sangat Cocok)</td></tr>
-                    <tr><td>pH Kulit Setelah Aplikasi</td><td>5.5</td></tr>
-                </table>
+                <div class="lab-data-card">
+                    <h3 class="lab-data-title"><i class="fas fa-flask"></i> Tabel 1. Analisa pH Larutan</h3>
+                    <p class="lab-data-desc">
+                        Hasil uji menunjukkan pH larutan adalah <strong style="color:var(--accent-toner)">4.5 (Sangat Cocok)</strong>. Nilai ini ideal karena sesuai dengan pH kulit normal (sekitar 5.5), sehingga formula sangat lembut dan tidak akan mengganggu lapisan pelindung kulit.
+                    </p>
+                </div>
 
                 <!-- Tabel 2: Mikrobiologi -->
-                <table class="lab-table">
-                    <tr><th>Uji Bakteri</th><th>Hasil</th></tr>
-                    <tr><td>Total Plate Count (TPC)</td><td class="result-pass">< 100 CFU/g (Sangat Aman)</td></tr>
-                    <tr><td>Patogen (Staphylococcus, dll)</td><td class="result-pass">Tidak Ditemukan</td></tr>
-                </table>
+                <div class="lab-data-card">
+                    <h3 class="lab-data-title"><i class="fas fa-bacteria"></i> Tabel 2. Uji Kebersihan Mikrobiologi</h3>
+                    <p class="lab-data-desc">
+                        Uji Total Plate Count (TPC) memberikan hasil <strong style="color:var(--accent-toner)">< 100 CFU/g (Sangat Aman)</strong>. Juga ditemukan hasil negatif untuk patogen berbahaya (Staphylococcus, dll). Ini membuktikan produk ini steril, bersih, dan bebas dari kontaminasi bakteri yang dapat menimbulkan jerawat.
+                    </p>
+                </div>
 
                 <!-- Tabel 3: Iritasi Kulit -->
-                <table class="lab-table">
-                    <tr><th>Tes Iritasi</th><th>Hasil</th></tr>
-                    <tr><td>Uji Patch (48 Jam)</td><td class="result-pass">Tanpa Eritasi (Score: 0)</td></tr>
-                    <tr><td>Uji Mata Kelinci (Draize)</td><td class="result-pass">Non-Iritant</td></tr>
-                </table>
+                <div class="lab-data-card">
+                    <h3 class="lab-data-title"><i class="fas fa-hand-sparkles"></i> Tabel 3. Uji Iritasi Kulit</h3>
+                    <p class="lab-data-desc">
+                        Pada uji Patch selama 48 jam, produk mencatat skor eritasi <strong style="color:var(--accent-toner)">0 (Tanpa Eritasi)</strong>. Uji Draize pada mata kelinci juga menyimpulkan produk bersifat <strong style="color:var(--accent-toner)">Non-Irritant</strong>. Kesimpulannya, produk ini sangat aman bahkan untuk kulit yang paling sensitif sekalipun.
+                    </p>
+                </div>
 
                 <!-- Tabel 4: Analisa Kandungan -->
-                <table class="lab-table">
-                    <tr><th>Komponen</th><th>Kadar (%)</th></tr>
-                    <tr><td>Ekstrak Bajakah</td><td>5%</td></tr>
-                    <tr><td>Ekstrak Bawang Putih</td><td>3%</td></tr>
-                    <tr><td>Air Daun Pandan</td><td>92%</td></tr>
-                </table>
+                <div class="lab-data-card">
+                    <h3 class="lab-data-title"><i class="fas fa-chart-pie"></i> Tabel 4. Komposisi Ekstrak Alami</h3>
+                    <p class="lab-data-desc">
+                        Komposisi produk terdiri dari <strong>Ekstrak Bajakah (5%)</strong> sebagai anti-inflamasi, <strong>Ekstrak Bawang Putih (3%)</strong> sebagai antibakteri alami, dan <strong>Air Daun Pandan (92%)</strong> sebagai dasar pelembab dan antioksidan. Kombinasi ini memberikan manfaat maksimal dari bahan lokal yang kaya nutrisi.
+                    </p>
+                </div>
 
                 <!-- Tabel 5: Stabilitas -->
-                <table class="lab-table">
-                    <tr><th>Suhu Penyimpanan</th><th>Ketentuan</th></tr>
-                    <tr><td>40°C ± 2°C</td><td class="result-pass">Stabil 6 Bulan</td></tr>
-                </table>
+                <div class="lab-data-card">
+                    <h3 class="lab-data-title"><i class="fas fa-temperature-high"></i> Tabel 5. Uji Stabilitas Suhu</h3>
+                    <p class="lab-data-desc">
+                        Produk diuji pada suhu penyimpanan 40°C ± 2°C. Hasilnya menunjukkan bahwa produk tetap <strong style="color:var(--accent-toner)">Stabil selama 6 Bulan</strong>. Artinya, kualitas, khasiat, dan tekstur produk tidak akan berubah meskipun disimpan dalam jangka waktu yang cukup lama di suhu kamar.
+                    </p>
+                </div>
 
                 <!-- Tabel 6: Kesimpulan Akhir -->
-                <table class="lab-table">
-                    <tr><th>Kesimpulan</th><th>Status</th></tr>
-                    <tr><td>Aman untuk penggunaan luar</td><td class="result-pass">LULUS</td></tr>
-                    <tr><td>Aman untuk kulit sensitif</td><td class="result-pass">LULUS</td></tr>
-                </table>
+                <div class="lab-data-card">
+                    <h3 class="lab-data-title"><i class="fas fa-check-double"></i> Tabel 6. Kesimpulan Keamanan Produk</h3>
+                    <p class="lab-data-desc">
+                        Berdasarkan rangkaian uji lab yang ketat, produk dinyatakan <strong style="color:var(--accent-toner)">LULUS</strong> atau aman untuk penggunaan luar (eksternal). Produk juga dinyatakan <strong style="color:var(--accent-toner)">LULUS</strong> untuk digunakan pada kulit sensitif. Bawi Toner resmi direkomendasikan untuk perawatan wajah rutin tanpa efek samping berbahaya.
+                    </p>
+                </div>
 
                 <button class="action-btn" style="background-color: var(--accent-toner); margin-top: 1rem;" onclick="navigateTo('toner')">Pesan Bawi Toner</button>
             </div>
@@ -1450,49 +1484,55 @@
                 <!-- 6 TABEL HASIL UJI LAB -->
                 <h3 style="margin-bottom: 1rem; font-size: 1.5rem; color: var(--text-dark);">Hasil Uji Laboratorium</h3>
 
-                <!-- Tabel 1: Stabilitas Vitamin C -->
-                <table class="lab-table">
-                    <tr><th>Metode</th><th>Kadar Awal</th><th>Kadar Akhir (30 Hari)</th></tr>
-                    <tr><td>Spektrofotometri (UV)</td><td>20%</td><td class="result-pass">19.8% (Stabil)</td></tr>
-                    <tr><td>Metode HPLC</td><td>20%</td><td class="result-pass">20.1% (Stabil)</td></tr>
-                </table>
+                <!-- 6 KARTU DATA HASIL UJI LAB (TEKS ONLY) -->
+                
+                <!-- Tabel 1: pH -->
+                <div class="lab-data-card">
+                    <h3 class="lab-data-title"><i class="fas fa-flask"></i> Tabel 1. Analisa pH Larutan</h3>
+                    <p class="lab-data-desc">
+                        Hasil uji menunjukkan pH larutan adalah <strong style="color:var(--accent-toner)">4.5 (Sangat Cocok)</strong>. Nilai ini ideal karena sesuai dengan pH kulit normal (sekitar 5.5), sehingga formula sangat lembut dan tidak akan mengganggu lapisan pelindung kulit.
+                    </p>
+                </div>
 
-                <!-- Tabel 2: Uji Brightening -->
-                <table class="lab-table">
-                    <tr><th>Indeks Kecerahan</th><th>Subjek (n=50)</th><th>Peningkatan</th></tr>
-                    <tr><td>ITA (L*)</td><td>50</td><td class="result-pass">+15.2%</td></tr>
-                    <tr><td>ITA (a*)</td><td>50</td><td class="result-pass">+14.8%</td></tr>
-                </table>
+                <!-- Tabel 2: Mikrobiologi -->
+                <div class="lab-data-card">
+                    <h3 class="lab-data-title"><i class="fas fa-bacteria"></i> Tabel 2. Uji Kebersihan Mikrobiologi</h3>
+                    <p class="lab-data-desc">
+                        Uji Total Plate Count (TPC) memberikan hasil <strong style="color:var(--accent-toner)">< 100 CFU/g (Sangat Aman)</strong>. Juga ditemukan hasil negatif untuk patogen berbahaya (Staphylococcus, dll). Ini membuktikan produk ini steril, bersih, dan bebas dari kontaminasi bakteri yang dapat menimbulkan jerawat.
+                    </p>
+                </div>
 
-                <!-- Tabel 3: Uji Kelembapan -->
-                <table class="lab-table">
-                    <tr><th>Parameter</th><th>Nilai</th></tr>
-                    <tr><td>Viskositas (cps)</td><td>5,500</td></tr>
-                    <tr><td>Konsistensi (Pas)</td><td class="result-pass">Lulus</td></tr>
-                    <tr><td>Penyebaran (cm)</td><td>5.5</td></tr>
-                </table>
+                <!-- Tabel 3: Iritasi Kulit -->
+                <div class="lab-data-card">
+                    <h3 class="lab-data-title"><i class="fas fa-hand-sparkles"></i> Tabel 3. Uji Iritasi Kulit</h3>
+                    <p class="lab-data-desc">
+                        Pada uji Patch selama 48 jam, produk mencatat skor eritasi <strong style="color:var(--accent-toner)">0 (Tanpa Eritasi)</strong>. Uji Draize pada mata kelinci juga menyimpulkan produk bersifat <strong style="color:var(--accent-toner)">Non-Irritant</strong>. Kesimpulannya, produk ini sangat aman bahkan untuk kulit yang paling sensitif sekalipun.
+                    </p>
+                </div>
 
-                <!-- Tabel 4: Tantangan Mikroba -->
-                <table class="lab-table">
-                    <tr><th>Mikroba</th><th>Batas Maksimum (log CFU)</th><th>Hasil</th></tr>
-                    <tr><td>Total Aerob</td><td>10^3</td><td class="result-pass">< 10 CFU</td></tr>
-                    <tr><td>Yeast & Mold</td><td>10^2</td><td class="result-pass">< 10 CFU</td></tr>
-                    <tr><td>E. Coli</td><td>10</td><td class="result-pass">Negatif</td></tr>
-                </table>
+                <!-- Tabel 4: Analisa Kandungan -->
+                <div class="lab-data-card">
+                    <h3 class="lab-data-title"><i class="fas fa-chart-pie"></i> Tabel 4. Komposisi Ekstrak Alami</h3>
+                    <p class="lab-data-desc">
+                        Komposisi produk terdiri dari <strong>Ekstrak Bajakah (5%)</strong> sebagai anti-inflamasi, <strong>Ekstrak Bawang Putih (3%)</strong> sebagai antibakteri alami, dan <strong>Air Daun Pandan (92%)</strong> sebagai dasar pelembab dan antioksidan. Kombinasi ini memberikan manfaat maksimal dari bahan lokal yang kaya nutrisi.
+                    </p>
+                </div>
 
-                <!-- Tabel 5: Uji Iritasi -->
-                <table class="lab-table">
-                    <tr><th>Tes</th><th>Skor (0-4)</th><th>Status</th></tr>
-                    <tr><td>Eritasi Primer (Draize)</td><td>0</td><td class="result-pass">Non-Iritant</td></tr>
-                    <tr><td>Sensitifitas Kulit (Erythema)</td><td>0.5</td><td class="result-pass">Minimal</td></tr>
-                </table>
+                <!-- Tabel 5: Stabilitas -->
+                <div class="lab-data-card">
+                    <h3 class="lab-data-title"><i class="fas fa-temperature-high"></i> Tabel 5. Uji Stabilitas Suhu</h3>
+                    <p class="lab-data-desc">
+                        Produk diuji pada suhu penyimpanan 40°C ± 2°C. Hasilnya menunjukkan bahwa produk tetap <strong style="color:var(--accent-toner)">Stabil selama 6 Bulan</strong>. Artinya, kualitas, khasiat, dan tekstur produk tidak akan berubah meskipun disimpan dalam jangka waktu yang cukup lama di suhu kamar.
+                    </p>
+                </div>
 
-                <!-- Tabel 6: Status BPOM -->
-                <table class="lab-table">
-                    <tr><th>Dokumen</th><th>Status</th></tr>
-                    <tr><td>Nomor Notifikasi</td><td class="result-pass">NA 18202001234</td></tr>
-                    <tr><td>Cara Penyajaman</td><td class="result-pass">Aman Digunakan</td></tr>
-                </table>
+                <!-- Tabel 6: Kesimpulan Akhir -->
+                <div class="lab-data-card">
+                    <h3 class="lab-data-title"><i class="fas fa-check-double"></i> Tabel 6. Kesimpulan Keamanan Produk</h3>
+                    <p class="lab-data-desc">
+                        Berdasarkan rangkaian uji lab yang ketat, produk dinyatakan <strong style="color:var(--accent-toner)">LULUS</strong> atau aman untuk penggunaan luar (eksternal). Produk juga dinyatakan <strong style="color:var(--accent-toner)">LULUS</strong> untuk digunakan pada kulit sensitif. Bawi Toner resmi direkomendasikan untuk perawatan wajah rutin tanpa efek samping berbahaya.
+                    </p>
+                </div>
 
                 <button class="action-btn" style="background-color: var(--accent-serum); margin-top: 1rem;" onclick="navigateTo('serum')">Pesan Tabela Serum</button>
             </div>
@@ -2042,6 +2082,7 @@
     </script>
 </body>
 </html>
+
 
 
 
